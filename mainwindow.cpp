@@ -15,14 +15,15 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 	ui->setupUi(this);
 	this->setStyleSheet(black);
-	ui->groupBox->setStyleSheet(black);
-	ui->lcdNumber_1->frameRect();
+	ui->groupBox->setStyleSheet(gray);
+	ui->lcdNumber_1->Filled;
 
-	ui->lcdNumber_1->setPalette(Qt::red);
-	ui->lcdNumber_2->setPalette(Qt::red);
-	ui->lcdNumber_3->setPalette(Qt::red);
-	ui->lcdNumber_4->setPalette(Qt::red);
-	ui->lcdNumber_5->setPalette(Qt::red);
+	ui->lcdNumber_1->setPalette(Qt::darkCyan);
+
+	ui->lcdNumber_2->setPalette(Qt::yellow);
+	ui->lcdNumber_3->setPalette(Qt::yellow);
+	ui->lcdNumber_4->setPalette(Qt::yellow);
+	ui->lcdNumber_5->setPalette(Qt::yellow);
 
 	/*
 	ui->groupBox->setStyleSheet(black);

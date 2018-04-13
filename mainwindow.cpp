@@ -1,6 +1,6 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
-		/* Define to colors */
+/* Define to colors */
 #define reds "background-color: red"
 #define blues "background-color: blue"
 #define gray "background-color: gray"
@@ -14,16 +14,15 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
-	this->setStyleSheet(black);
-	ui->groupBox->setStyleSheet(gray);
+	//this->setStyleSheet(black);
+	//ui->groupBox->setStyleSheet(gray);
+
 	ui->lcdNumber_1->Filled;
-
-	ui->lcdNumber_1->setPalette(Qt::darkCyan);
-
-	ui->lcdNumber_2->setPalette(Qt::yellow);
-	ui->lcdNumber_3->setPalette(Qt::yellow);
-	ui->lcdNumber_4->setPalette(Qt::yellow);
-	ui->lcdNumber_5->setPalette(Qt::yellow);
+	ui->lcdNumber_1->setPalette(Qt::red);
+	ui->lcdNumber_2->setPalette(Qt::red);
+	ui->lcdNumber_3->setPalette(Qt::red);
+	ui->lcdNumber_4->setPalette(Qt::red);
+	ui->lcdNumber_5->setPalette(Qt::red);
 
 	/*
 	ui->groupBox->setStyleSheet(black);
@@ -32,18 +31,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	bool status = serialc->openConnetions();// sopenConnetions();
 	if (status) {
-		ui->toolButton->setStyleSheet(green);
-		ui->toolButton->setText("connected");
+		ui->connectionstatus->setStyleSheet(green);
+		ui->connectionstatus->setText("connected");
 	} else {
-		ui->toolButton->setStyleSheet(reds);
-		ui->toolButton->setText("not connected");
+		ui->connectionstatus->setStyleSheet(reds);
+		ui->connectionstatus->setText("not connected");
 	}
-
-	ui->lcdNumber_1->display("A");
-	ui->lcdNumber_2->display("B");
-	ui->lcdNumber_3->display("C");
-	ui->lcdNumber_4->display("D");
-	ui->lcdNumber_5->display("E");
 
 	QByteArray flash_data[15];
 	flash_data[0] = "device.gain";
@@ -87,9 +80,12 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->pushButton_4->setIconSize(pixmap4.rect().size());
 
 	QTimer *timer = new QTimer(this);
-	  connect(timer, SIGNAL(timeout()), this, SLOT(testTool()));
-	  timer->start(300);
-
+	connect(timer, SIGNAL(timeout()),this, SLOT(testTool()));
+	timer->start(3000);
+	connect(serialc, SIGNAL(speak(QByteArray)),this,SLOT(readNewData(QByteArray)));
+	connect(serialc, SIGNAL(newTest(QString)),this,SLOT(Ledinit(QString)));
+	connect(serialc,SIGNAL(sDebug(QString)),ui->console,SLOT(appendPlainText(QString)));
+	serialc->initlizer();
 }
 
 MainWindow::~MainWindow()
@@ -145,23 +141,11 @@ void MainWindow::on_sender_clicked()
 	}
 }
 
-void MainWindow::testTool(){
-
-
-		for(int i=0;i<10;i++){
-			ui->lcdNumber_1->display(i);
-			delay();
-			ui->lcdNumber_2->display(i);
-			delay();
-			ui->lcdNumber_3->display(i);
-			delay();
-			ui->lcdNumber_4->display(i);
-			delay();
-			ui->lcdNumber_5->display(i);
-			delay();
-
-		}
-
+void MainWindow::readNewData(QByteArray data)
+{
+	ui->console->appendPlainText(data);
+	ui->console->moveCursor(QTextCursor::Down);
+	qDebug() << data;
 }
 
 void MainWindow::delay()
@@ -170,3 +154,57 @@ void MainWindow::delay()
 	while (QTime::currentTime() < dieTime)
 		QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }
+
+void MainWindow::Ledinit(QString str)
+{
+	qDebug() << str;
+}
+
+void MainWindow::controller(const QString param)
+{
+	if( param == "active"){
+		if(serialc->currentState())
+			qDebug() << "current state:" << "active";
+		else
+			qDebug() << "current state:" << "deactive";
+	}
+	else if ( param == "datawritable" )
+		if(serialc->byteWritable()){
+				qDebug() << "data writable";
+				ui->writeablestatus->setText("Writable");
+				ui->writeablestatus->setStyleSheet(green);
+		}
+		else{
+				ui->writeablestatus->setText("Not Writable");
+				ui->writeablestatus->setStyleSheet(reds);
+		qDebug() << "not writable";
+		}
+	else if ( param == "debug"){
+		ui->console->appendPlainText("atakandebugifelse");
+		serialc->debugging();
+		}
+	else{
+		qDebug() << "somethins wrong";
+	}
+}
+
+void MainWindow::testTool(){
+
+	controller("active");
+	controller("datawritable");
+	controller("debug");
+}
+
+void MainWindow::on_actionHow_to_use_ASI210_triggered()
+{
+	QWidget *w = new QWidget;
+	QPlainTextEdit *te = new QPlainTextEdit;
+	te->setReadOnly(true);
+	QHBoxLayout *hlayout = new QHBoxLayout;
+	hlayout->addWidget(te);
+	te->appendPlainText(" ABOUT ASI210 \n\nFirst read ASI210 manual This program created by Atakan");
+	w->setLayout(hlayout);
+	w->show();
+}
+
+

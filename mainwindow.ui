@@ -6,19 +6,23 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1138</width>
-    <height>660</height>
+    <width>920</width>
+    <height>632</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>icon.png</normaloff>icon.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="1" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -31,33 +35,31 @@
            <string/>
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
-           <item row="0" column="0" colspan="4">
+           <item row="1" column="4">
+            <widget class="QPushButton" name="sender">
+             <property name="text">
+              <string>send</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QToolButton" name="connectionstatus">
+             <property name="text">
+              <string>status</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="3">
+            <widget class="QComboBox" name="comboBox"/>
+           </item>
+           <item row="0" column="0" colspan="5">
             <layout class="QGridLayout" name="gridLayout_2">
-             <item row="1" column="7">
-              <spacer name="horizontalSpacer_2">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
+             <item row="1" column="3">
+              <widget class="QPushButton" name="pushButton_3">
+               <property name="text">
+                <string/>
                </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>88</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="1" column="0">
-              <spacer name="horizontalSpacer">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>88</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
+              </widget>
              </item>
              <item row="0" column="0" colspan="8">
               <layout class="QHBoxLayout" name="horizontalLayout">
@@ -73,6 +75,9 @@
                  </property>
                  <property name="smallDecimalPoint">
                   <bool>false</bool>
+                 </property>
+                 <property name="digitCount">
+                  <number>1</number>
                  </property>
                  <property name="segmentStyle">
                   <enum>QLCDNumber::Filled</enum>
@@ -92,6 +97,9 @@
                    <bold>true</bold>
                   </font>
                  </property>
+                 <property name="digitCount">
+                  <number>1</number>
+                 </property>
                  <property name="segmentStyle">
                   <enum>QLCDNumber::Filled</enum>
                  </property>
@@ -110,6 +118,9 @@
                    <bold>true</bold>
                   </font>
                  </property>
+                 <property name="digitCount">
+                  <number>1</number>
+                 </property>
                  <property name="segmentStyle">
                   <enum>QLCDNumber::Filled</enum>
                  </property>
@@ -124,6 +135,9 @@
                    <italic>true</italic>
                    <bold>true</bold>
                   </font>
+                 </property>
+                 <property name="digitCount">
+                  <number>1</number>
                  </property>
                  <property name="segmentStyle">
                   <enum>QLCDNumber::Filled</enum>
@@ -140,6 +154,9 @@
                    <bold>true</bold>
                   </font>
                  </property>
+                 <property name="digitCount">
+                  <number>1</number>
+                 </property>
                  <property name="segmentStyle">
                   <enum>QLCDNumber::Filled</enum>
                  </property>
@@ -147,8 +164,8 @@
                </item>
               </layout>
              </item>
-             <item row="1" column="3">
-              <widget class="QPushButton" name="pushButton_3">
+             <item row="1" column="2">
+              <widget class="QPushButton" name="pushButton_2">
                <property name="text">
                 <string/>
                </property>
@@ -161,12 +178,18 @@
                </property>
               </widget>
              </item>
-             <item row="1" column="2">
-              <widget class="QPushButton" name="pushButton_2">
-               <property name="text">
-                <string/>
+             <item row="1" column="7">
+              <spacer name="horizontalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
                </property>
-              </widget>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>88</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
              </item>
              <item row="1" column="1">
               <widget class="QPushButton" name="pushButton_1">
@@ -175,24 +198,20 @@
                </property>
               </widget>
              </item>
+             <item row="1" column="0">
+              <spacer name="horizontalSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>88</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
             </layout>
-           </item>
-           <item row="1" column="3">
-            <widget class="QPushButton" name="sender">
-             <property name="text">
-              <string>send</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QComboBox" name="comboBox"/>
-           </item>
-           <item row="1" column="1">
-            <widget class="QToolButton" name="toolButton">
-             <property name="text">
-              <string>status</string>
-             </property>
-            </widget>
            </item>
            <item row="1" column="0">
             <spacer name="horizontalSpacer_3">
@@ -207,6 +226,13 @@
              </property>
             </spacer>
            </item>
+           <item row="1" column="1">
+            <widget class="QToolButton" name="writeablestatus">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
@@ -214,8 +240,17 @@
       </widget>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
-        <string>TEST TOOL</string>
+        <string>Debugging</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0">
+         <widget class="QPlainTextEdit" name="console">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -226,7 +261,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1138</width>
+     <width>920</width>
      <height>34</height>
     </rect>
    </property>
@@ -243,16 +278,22 @@
     <addaction name="actionChange_Background"/>
     <addaction name="actionBlack"/>
    </widget>
-   <addaction name="menuAbout"/>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>Fi&amp;le</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="actionHow_to_use_ASI210"/>
+   </widget>
+   <addaction name="menuFile"/>
    <addaction name="menuSettings"/>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
+   <addaction name="menuHelp"/>
+   <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionAbout_ASI210">
@@ -277,6 +318,11 @@
    </property>
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;&lt;font color=&quot;yellow&quot;&gt;Black&lt;/font&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionHow_to_use_ASI210">
+   <property name="text">
+    <string>&amp;How to use ASI210</string>
    </property>
   </action>
  </widget>

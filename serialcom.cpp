@@ -1,4 +1,6 @@
 #include "serialcom.h"
+#include <QMessageBox>
+#include <QIODevice>
 
 serialcom::serialcom(QObject *parent) : QObject(parent)
 {
@@ -7,29 +9,15 @@ serialcom::serialcom(QObject *parent) : QObject(parent)
 	connectionState = false;
 	msg = new QMessageBox;
 	connect(serial, SIGNAL(readyRead()),this, SLOT(readData()));
-
-
+	connect(serial, SIGNAL(error(QSerialPort::SerialPortError)), this,
+								SLOT(handleError(QSerialPort::SerialPortError)));
 }
 
 void serialcom::initlizer()
 {
-	/*try {
-		serial->setPortName("ttyUSB0");
-		serial->open(QIODevice::ReadWrite);
-		serial->setBaudRate(QSerialPort::Baud115200);
-		serial->setDataBits(QSerialPort::Data8);
-		serial->setParity(QSerialPort::NoParity);
-		serial->setFlowControl(QSerialPort::NoFlowControl);
-		serial->setStopBits(QSerialPort::OneStop);
-	qDebug() << "connected";
-	connectionState = true;
 
-	} catch (...) {
-		msg->setText("\n\nWarning!! Connection to serialport\n");
-		msg->exec();
-		connectionState = false;
-	}
-	connectionStatus();*/
+	QString array2 = "aa";
+	emit newTest(array2);
 }
 
 bool serialcom::openConnetions()
@@ -41,11 +29,13 @@ bool serialcom::openConnetions()
 					&& serial->setDataBits(QSerialPort::Data8)
 					&& serial->setParity(QSerialPort::NoParity)
 					&& serial->setStopBits(QSerialPort::OneStop)
-					&& serial->setFlowControl(QSerialPort::NoFlowControl)){
+					&& serial->setFlowControl(QSerialPort::NoFlowControl))
+			{
 				return true;
 				qDebug() << "connected";
 			}
 	} catch (...) {
+		qDebug() << "not connected"	<<	serial->errorString();
 		return false;
 	}
 }
@@ -66,6 +56,7 @@ bool serialcom::connectionStatus()
 QByteArray serialcom::readData()
 {
 	QByteArray ba = serial->readAll();
+	QByteArray emit speak(ba);
 	return ba;
 }
 
@@ -75,5 +66,32 @@ void serialcom::writeReadyData(QByteArray ba)
 	serial->write(ba);
 }
 
+bool serialcom::currentState()
+{
+	if(serial->isOpen())
+		return true;
+	else
+		return false;
+		serial->close();
+}
 
+bool serialcom::byteWritable()
+{
+	if(serial->isWritable())
+			return true;
+	else
+			return false;
+}
+
+void serialcom::handleError(QSerialPort::SerialPortError error)
+{
+	if (error == QSerialPort::ResourceError) {
+		qDebug() << serial->errorString();
+		serial->close();
+	}
+}
+
+void serialcom::debugging(){
+	emit sDebug("test-atakan");
+}
 

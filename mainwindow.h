@@ -8,6 +8,10 @@
 #include <QIcon>
 #include <QTimer>
 #include <QTime>
+#include <QWidget>
+#include <QHBoxLayout>
+#include <QPlainTextEdit>
+
 namespace Ui {
 class MainWindow;
 }
@@ -21,17 +25,20 @@ public:
 	~MainWindow();
 
 public slots:
+
+	void readNewData(QByteArray data);
+
+	void controller(const QString param);
 	void testTool();
 private slots:
 	void on_actionAbout_ASI210_triggered();
-
 	void on_actionChange_Background_triggered();
-
 	void on_actionBlack_triggered();
-
 	void on_sender_clicked();
-
 	void delay();
+	void Ledinit(QString str);
+	void on_actionHow_to_use_ASI210_triggered();
+
 private:
 	Ui::MainWindow *ui;
 	serialcom *serialc;

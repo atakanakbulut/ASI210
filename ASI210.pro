@@ -13,14 +13,20 @@ TARGET = ASI210
 TEMPLATE = app
 
 
+
 SOURCES += main.cpp\
         mainwindow.cpp \
-    serialcom.cpp
+    serialcom.cpp \
+    startup.cpp \
+    application.cpp
 
 HEADERS  += mainwindow.h \
-    serialcom.h
+    serialcom.h \
+    startup.h \
+    application.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    startup.ui
 
 DISTFILES += \
     back.png

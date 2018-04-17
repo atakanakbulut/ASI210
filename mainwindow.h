@@ -39,6 +39,8 @@ private slots:
 	void Ledinit(QString str);
 	void on_actionHow_to_use_ASI210_triggered();
 
+	void on_actionAbout_Qt_triggered();
+
 private:
 	Ui::MainWindow *ui;
 	serialcom *serialc;

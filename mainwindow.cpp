@@ -1,5 +1,8 @@
 ﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "application.h"
+#include "startup.h"
+
 /* Define to colors */
 #define reds "background-color: red"
 #define blues "background-color: blue"
@@ -9,11 +12,17 @@
 #define yellows "background-color: yellow"
 #define whites "background-color: white"
 
+//debugger
+#define qcout qDebug()
+
+#include<QProcess>
+
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
+
 	//this->setStyleSheet(black);
 	//ui->groupBox->setStyleSheet(gray);
 
@@ -24,18 +33,17 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->lcdNumber_4->setPalette(Qt::red);
 	ui->lcdNumber_5->setPalette(Qt::red);
 
-	/*
-	ui->groupBox->setStyleSheet(black);
-*/
 	serialc = new serialcom;
 
 	bool status = serialc->openConnetions();// sopenConnetions();
 	if (status) {
 		ui->connectionstatus->setStyleSheet(green);
 		ui->connectionstatus->setText("connected");
+		ui->console->appendPlainText("connected to ttyUSB0");
 	} else {
 		ui->connectionstatus->setStyleSheet(reds);
 		ui->connectionstatus->setText("not connected");
+		ui->console->appendPlainText("not connected to ttyUSB0\nPlease check Serial converter or device");
 	}
 
 	QByteArray flash_data[15];
@@ -86,6 +94,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(serialc, SIGNAL(newTest(QString)),this,SLOT(Ledinit(QString)));
 	connect(serialc,SIGNAL(sDebug(QString)),ui->console,SLOT(appendPlainText(QString)));
 	serialc->initlizer();
+	application a;
+	a.buttonSettings();
+
 }
 
 MainWindow::~MainWindow()
@@ -207,4 +218,7 @@ void MainWindow::on_actionHow_to_use_ASI210_triggered()
 	w->show();
 }
 
-
+void MainWindow::on_actionAbout_Qt_triggered()
+{
+	return QApplication::aboutQt();
+}

@@ -4,5 +4,6 @@
         <file>rec.png</file>
         <file>stop.png</file>
         <file>up.png</file>
+        <file>bilkonlogo.png</file>
     </qresource>
 </RCC>

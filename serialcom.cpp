@@ -95,3 +95,4 @@ void serialcom::debugging(){
 	emit sDebug("test-atakan");
 }
 
+

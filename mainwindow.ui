@@ -19,12 +19,12 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="0">
+    <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
-      <widget class="QWidget" name="tab">
+      <widget class="QWidget" name="tab_1">
        <attribute name="title">
         <string>ASI210</string>
        </attribute>
@@ -64,7 +64,17 @@
              <item row="0" column="0" colspan="8">
               <layout class="QHBoxLayout" name="horizontalLayout">
                <item>
-                <widget class="QLCDNumber" name="lcdNumber_1">
+                <widget class="QLCDNumber" name="lcdNumber_6">
+                 <property name="digitCount">
+                  <number>1</number>
+                 </property>
+                 <property name="intValue" stdset="0">
+                  <number>6</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLCDNumber" name="lcdNumber_5">
                  <property name="font">
                   <font>
                    <pointsize>48</pointsize>
@@ -73,8 +83,26 @@
                    <bold>true</bold>
                   </font>
                  </property>
-                 <property name="smallDecimalPoint">
-                  <bool>false</bool>
+                 <property name="digitCount">
+                  <number>1</number>
+                 </property>
+                 <property name="segmentStyle">
+                  <enum>QLCDNumber::Filled</enum>
+                 </property>
+                 <property name="intValue" stdset="0">
+                  <number>5</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLCDNumber" name="lcdNumber_4">
+                 <property name="font">
+                  <font>
+                   <pointsize>48</pointsize>
+                   <weight>75</weight>
+                   <italic>true</italic>
+                   <bold>true</bold>
+                  </font>
                  </property>
                  <property name="digitCount">
                   <number>1</number>
@@ -83,7 +111,28 @@
                   <enum>QLCDNumber::Filled</enum>
                  </property>
                  <property name="intValue" stdset="0">
+                  <number>4</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLCDNumber" name="lcdNumber_3">
+                 <property name="font">
+                  <font>
+                   <pointsize>48</pointsize>
+                   <weight>75</weight>
+                   <italic>true</italic>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="digitCount">
                   <number>1</number>
+                 </property>
+                 <property name="segmentStyle">
+                  <enum>QLCDNumber::Filled</enum>
+                 </property>
+                 <property name="intValue" stdset="0">
+                  <number>3</number>
                  </property>
                 </widget>
                </item>
@@ -104,12 +153,12 @@
                   <enum>QLCDNumber::Filled</enum>
                  </property>
                  <property name="intValue" stdset="0">
-                  <number>0</number>
+                  <number>2</number>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QLCDNumber" name="lcdNumber_3">
+                <widget class="QLCDNumber" name="lcdNumber_1">
                  <property name="font">
                   <font>
                    <pointsize>48</pointsize>
@@ -118,23 +167,8 @@
                    <bold>true</bold>
                   </font>
                  </property>
-                 <property name="digitCount">
-                  <number>1</number>
-                 </property>
-                 <property name="segmentStyle">
-                  <enum>QLCDNumber::Filled</enum>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLCDNumber" name="lcdNumber_4">
-                 <property name="font">
-                  <font>
-                   <pointsize>48</pointsize>
-                   <weight>75</weight>
-                   <italic>true</italic>
-                   <bold>true</bold>
-                  </font>
+                 <property name="smallDecimalPoint">
+                  <bool>false</bool>
                  </property>
                  <property name="digitCount">
                   <number>1</number>
@@ -142,23 +176,8 @@
                  <property name="segmentStyle">
                   <enum>QLCDNumber::Filled</enum>
                  </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLCDNumber" name="lcdNumber_5">
-                 <property name="font">
-                  <font>
-                   <pointsize>48</pointsize>
-                   <weight>75</weight>
-                   <italic>true</italic>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="digitCount">
+                 <property name="intValue" stdset="0">
                   <number>1</number>
-                 </property>
-                 <property name="segmentStyle">
-                  <enum>QLCDNumber::Filled</enum>
                  </property>
                 </widget>
                </item>
@@ -252,17 +271,115 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="tab_3">
+       <attribute name="title">
+        <string>Custom Step</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_7">
+        <item row="0" column="0">
+         <layout class="QGridLayout" name="gridLayout_6">
+          <item row="0" column="0">
+           <widget class="QGroupBox" name="groupBox_2">
+            <property name="title">
+             <string/>
+            </property>
+            <widget class="QWidget" name="">
+             <property name="geometry">
+              <rect>
+               <x>20</x>
+               <y>10</y>
+               <width>411</width>
+               <height>451</height>
+              </rect>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_8">
+              <item row="0" column="0">
+               <widget class="QLineEdit" name="getcustomparam"/>
+              </item>
+              <item row="0" column="1">
+               <widget class="QPushButton" name="pushButton_5">
+                <property name="text">
+                 <string>add</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0" colspan="2">
+               <layout class="QHBoxLayout" name="horizontalLayout_2">
+                <item>
+                 <widget class="QComboBox" name="comboBox_custom"/>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton">
+                  <property name="text">
+                   <string>push</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QGroupBox" name="groupBox_3">
+            <property name="title">
+             <string extracomment="this mode directly send to command on serialport">                                           DIRECT PUSH MODE</string>
+            </property>
+            <widget class="QLineEdit" name="pushcmd">
+             <property name="geometry">
+              <rect>
+               <x>20</x>
+               <y>40</y>
+               <width>321</width>
+               <height>27</height>
+              </rect>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="pushButton_6">
+             <property name="geometry">
+              <rect>
+               <x>350</x>
+               <y>40</y>
+               <width>81</width>
+               <height>27</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>send</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label">
+             <property name="geometry">
+              <rect>
+               <x>310</x>
+               <y>80</y>
+               <width>67</width>
+               <height>17</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>status</string>
+             </property>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>920</width>
-     <height>34</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSettings">
@@ -276,10 +393,12 @@
     <property name="title">
      <string>Fi&amp;le</string>
     </property>
+    <addaction name="actionExport_log"/>
+    <addaction name="actionImport_log"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>Help</string>
+     <string>&amp;Help</string>
     </property>
     <addaction name="separator"/>
     <addaction name="actionHow_to_use_ASI210"/>
@@ -289,14 +408,28 @@
      <string>Abo&amp;ut</string>
     </property>
     <addaction name="actionAbout_ASI210"/>
-    <addaction name="actionAbout_Qt"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuSettings"/>
    <addaction name="menuHelp"/>
    <addaction name="menuAbout"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionImport_log"/>
+   <addaction name="actionExport_log"/>
+   <addaction name="actionAbout_ASI210"/>
+   <addaction name="actionAbout_Qt"/>
+   <addaction name="actionHow_to_use_ASI210"/>
+  </widget>
   <action name="actionAbout_ASI210">
    <property name="text">
     <string>&amp;About ASI210</string>
@@ -328,7 +461,17 @@
   </action>
   <action name="actionAbout_Qt">
    <property name="text">
-    <string>About Qt</string>
+    <string>About &amp;Qt</string>
+   </property>
+  </action>
+  <action name="actionExport_log">
+   <property name="text">
+    <string>export log</string>
+   </property>
+  </action>
+  <action name="actionImport_log">
+   <property name="text">
+    <string>import log</string>
    </property>
   </action>
  </widget>

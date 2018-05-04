@@ -25,7 +25,7 @@ bool serialcom::openConnetions()
 	try {
 		serial->setPortName("ttyUSB0");
 		if(serial->open(QIODevice::ReadWrite))
-			if (serial->setBaudRate(QSerialPort::Baud115200)
+            if (serial->setBaudRate(QSerialPort::Baud9600)
 					&& serial->setDataBits(QSerialPort::Data8)
 					&& serial->setParity(QSerialPort::NoParity)
 					&& serial->setStopBits(QSerialPort::OneStop)
@@ -94,5 +94,3 @@ void serialcom::handleError(QSerialPort::SerialPortError error)
 void serialcom::debugging(){
 	emit sDebug("test-atakan");
 }
-
-

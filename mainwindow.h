@@ -41,6 +41,16 @@ private slots:
 
 	void on_actionAbout_Qt_triggered();
 
+    void on_actionExport_log_triggered();
+
+    void on_actionImport_log_triggered();
+
+    void on_pushButton_5_clicked();
+
+    void getCustomParam();
+    void on_pushButton_6_clicked();
+
+    void setValueToLCD(QByteArray ba);
 private:
 	Ui::MainWindow *ui;
 	serialcom *serialc;

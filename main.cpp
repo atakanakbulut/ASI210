@@ -13,10 +13,10 @@ int main(int argc, char *argv[])
 		s.delay();
 		if (s.loginstatus()) {
 			MainWindow w;
-		  s.hide();
-		  w.show();
-		  qDebug() << "program started";
-		  return a.exec();
+			s.hide();
+			w.show();
+			qDebug() << "program started";
+			return a.exec();
 		}
 	}
 	return a.exec();

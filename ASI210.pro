@@ -6,6 +6,7 @@
 
 QT       += core gui
 QT       += serialport
+QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -18,12 +19,14 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     serialcom.cpp \
     startup.cpp \
-    application.cpp
+    application.cpp \
+    netman.cpp
 
 HEADERS  += mainwindow.h \
     serialcom.h \
     startup.h \
-    application.h
+    application.h \
+    netman.h
 
 FORMS    += mainwindow.ui \
     startup.ui

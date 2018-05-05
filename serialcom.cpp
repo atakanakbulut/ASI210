@@ -10,7 +10,7 @@ serialcom::serialcom(QObject *parent) : QObject(parent)
 	msg = new QMessageBox;
 	connect(serial, SIGNAL(readyRead()),this, SLOT(readData()));
 	connect(serial, SIGNAL(error(QSerialPort::SerialPortError)), this,
-								SLOT(handleError(QSerialPort::SerialPortError)));
+			SLOT(handleError(QSerialPort::SerialPortError)));
 }
 
 void serialcom::initlizer()
@@ -25,7 +25,7 @@ bool serialcom::openConnetions()
 	try {
 		serial->setPortName("ttyUSB0");
 		if(serial->open(QIODevice::ReadWrite))
-            if (serial->setBaudRate(QSerialPort::Baud9600)
+			if (serial->setBaudRate(QSerialPort::Baud9600)
 					&& serial->setDataBits(QSerialPort::Data8)
 					&& serial->setParity(QSerialPort::NoParity)
 					&& serial->setStopBits(QSerialPort::OneStop)
@@ -46,18 +46,21 @@ void serialcom::closeConnection()
 }
 
 bool serialcom::connectionStatus()
- {
+{
 	if(connectionState)
 		return true;
 	else
 		return false;
 }
 
-QByteArray serialcom::readData()
+QString serialcom::readData()
 {
+	qDebug() << serial->readAll() << "gelen data";
 	QByteArray ba = serial->readAll();
-	QByteArray emit speak(ba);
-	return ba;
+	QString str = QString::fromUtf8(ba);
+
+	emit speak(str);
+	return str;
 }
 
 void serialcom::writeReadyData(QByteArray ba)
@@ -72,15 +75,15 @@ bool serialcom::currentState()
 		return true;
 	else
 		return false;
-		serial->close();
+	serial->close();
 }
 
 bool serialcom::byteWritable()
 {
 	if(serial->isWritable())
-			return true;
+		return true;
 	else
-			return false;
+		return false;
 }
 
 void serialcom::handleError(QSerialPort::SerialPortError error)

@@ -22,7 +22,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_1">
        <attribute name="title">
@@ -283,7 +283,7 @@
             <property name="title">
              <string/>
             </property>
-            <widget class="QWidget" name="">
+            <widget class="QWidget" name="layoutWidget">
              <property name="geometry">
               <rect>
                <x>20</x>
@@ -466,12 +466,12 @@
   </action>
   <action name="actionExport_log">
    <property name="text">
-    <string>export log</string>
+    <string>&amp;export log</string>
    </property>
   </action>
   <action name="actionImport_log">
    <property name="text">
-    <string>import log</string>
+    <string>&amp;import log</string>
    </property>
   </action>
  </widget>

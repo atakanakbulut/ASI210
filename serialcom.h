@@ -16,11 +16,11 @@ public:
 	bool openConnetions();
 	bool byteWritable();
 signals:
-	void speak(QByteArray ba);
+	void speak(QString ba);
 	void newTest(QString str);
 	void sDebug(QString debugString);
 public slots:
-	QByteArray readData();
+	QString readData();
 	bool currentState();
 	void debugging();
 private slots:

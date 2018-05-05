@@ -2,7 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+
 #include "serialcom.h"
+#include "netman.h"
+
 #include <QDebug>
 #include <QPixmap>
 #include <QIcon>
@@ -11,6 +14,7 @@
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QPlainTextEdit>
+
 
 namespace Ui {
 class MainWindow;
@@ -26,7 +30,7 @@ public:
 
 public slots:
 
-	void readNewData(QByteArray data);
+	void readNewData(QString data);
 
 	void controller(const QString param);
 	void testTool();
@@ -51,9 +55,14 @@ private slots:
     void on_pushButton_6_clicked();
 
     void setValueToLCD(QByteArray ba);
+
+
 private:
 	Ui::MainWindow *ui;
+
 	serialcom *serialc;
+	netman *sock;
+
 	QTimer *tim;
 };
 

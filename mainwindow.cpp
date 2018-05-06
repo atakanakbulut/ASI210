@@ -282,8 +282,20 @@ void MainWindow::on_pushButton_6_clicked()
 	serialc->writeReadyData(ba);
 }
 
+void MainWindow::on_actionSet_server_adress_triggered()
+{
+	bool ok;
+	QString text = QInputDialog::getText(this, tr("Please Input server and port"),
+										 tr("User name:"), QLineEdit::Normal,
+										 "10.50.255.225:6750", &ok);
+
+	QStringList list = text.split(":");
+	QString port = list.at(1);
+	sock->connectHost(list.at(0),port.toInt());
+}
 void MainWindow::setValueToLCD(QByteArray ba)
 {
 
 }
+
 

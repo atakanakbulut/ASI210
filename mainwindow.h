@@ -14,7 +14,7 @@
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QPlainTextEdit>
-
+#include <QInputDialog>
 
 namespace Ui {
 class MainWindow;
@@ -56,6 +56,8 @@ private slots:
 
     void setValueToLCD(QByteArray ba);
 
+
+	void on_actionSet_server_adress_triggered();
 
 private:
 	Ui::MainWindow *ui;

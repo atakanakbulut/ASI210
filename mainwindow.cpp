@@ -24,20 +24,12 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	//this->setStyleSheet(black);
-	//ui->groupBox->setStyleSheet(gray);
-
-	ui->lcdNumber_1->Filled;
-	ui->lcdNumber_1->setPalette(Qt::red);
-	ui->lcdNumber_2->setPalette(Qt::red);
-	ui->lcdNumber_3->setPalette(Qt::red);
-	ui->lcdNumber_4->setPalette(Qt::red);
-	ui->lcdNumber_5->setPalette(Qt::red);
-	ui->lcdNumber_6->setPalette(Qt::red);
-
+// CREATED NEW OBJECTS
 	serialc = new serialcom;
+	sock = new netman;
 
-	bool status = serialc->openConnetions();// sopenConnetions();
+// SERIAL PORT INITLIZING
+	bool status = serialc->openConnetions();	// sopenConnetions();
 	if (status) {
 		ui->connectionstatus->setStyleSheet(green);
 		ui->connectionstatus->setText("connected");
@@ -45,30 +37,13 @@ MainWindow::MainWindow(QWidget *parent) :
 	} else {
 		ui->connectionstatus->setStyleSheet(reds);
 		ui->connectionstatus->setText("not connected");
-		ui->console->appendPlainText("not connected to ttyUSB0\nPlease check Serial converter or device");
+		ui->console->appendPlainText("not connected to "
+									 "ttyUSB0\nPlease check Serial converter or device");
 	}
 
-	QByteArray flash_data[15];
-	flash_data[0] = "device.gain";
-	flash_data[1] = "device.dp";
-	flash_data[2] = "device.zero_point";
-	flash_data[3] = "device.max_load";
-	flash_data[4] = "device.cal_entry";
-	flash_data[5] = "device.cal_point";
-	flash_data[6] = "device.step_value";
-	flash_data[7] = "device.address";
-	flash_data[8] = "device.baudrate";
-	flash_data[9] = "device.relay_set_point";
-	flash_data[10] = "device.zero_percent";
-	flash_data[11] = "device.user_id";
-	flash_data[12] = "device.speed_status";
-	flash_data[13] = "0";
-	flash_data[14] = "device.mode";
+	dataForASI();
 
-	for (int i=0;i < 15; i++){
-		ui->comboBox->addItem(flash_data[i]);
-	}
-
+//USER INTERFACE OPTIONS
 	QPixmap pixmap1(":/stop.png");
 	QIcon ButtonIcon1(pixmap1);
 	ui->pushButton_1->setIcon(ButtonIcon1);
@@ -89,6 +64,14 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->pushButton_4->setIcon(ButtonIcon4);
 	ui->pushButton_4->setIconSize(pixmap4.rect().size());
 
+	ui->lcdNumber_1->setPalette(Qt::red);
+	ui->lcdNumber_2->setPalette(Qt::red);
+	ui->lcdNumber_3->setPalette(Qt::red);
+	ui->lcdNumber_4->setPalette(Qt::red);
+	ui->lcdNumber_5->setPalette(Qt::red);
+	ui->lcdNumber_6->setPalette(Qt::red);
+
+// SIGNALS AND SLOTS
 	QTimer *timer = new QTimer(this);
 	connect(timer, SIGNAL(timeout()),this, SLOT(testTool()));
 	timer->start(3000);
@@ -98,11 +81,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	serialc->initlizer();
 	application a;
 	a.buttonSettings();
-
-	sock = new netman;
+	dataParser(" TAKA ");
 	connect(sock,SIGNAL(newUdpData(QString)),ui->console,SLOT(appendPlainText(QString)));
-
-	ui->lcdNumber_6->setSmallDecimalPoint(true);
 }
 
 MainWindow::~MainWindow()
@@ -163,8 +143,8 @@ void MainWindow::readNewData(QString data)
 	ui->console->insertPlainText(data);
 	ui->console->moveCursor(QTextCursor::Down);
 
-	qDebug() << data << "BURAYA GELIYOR"
-						"";
+	qDebug() << data << "BURAYA GELIYOR";
+
 }
 
 void MainWindow::delay()
@@ -292,10 +272,51 @@ void MainWindow::on_actionSet_server_adress_triggered()
 	QStringList list = text.split(":");
 	QString port = list.at(1);
 	sock->connectHost(list.at(0),port.toInt());
+	setValueToLCD("13");
 }
-void MainWindow::setValueToLCD(QByteArray ba)
+
+void MainWindow::setValueToLCD(QString ba)
 {
+	ui->lcdNumber_1->display("3.14");
+}
+
+void MainWindow::dataForASI()
+{
+	QByteArray flash_data[15];
+	flash_data[0] = "device.gain";
+	flash_data[1] = "device.dp";
+	flash_data[2] = "device.zero_point";
+	flash_data[3] = "device.max_load";
+	flash_data[4] = "device.cal_entry";
+	flash_data[5] = "device.cal_point";
+	flash_data[6] = "device.step_value";
+	flash_data[7] = "device.address";
+	flash_data[8] = "device.baudrate";
+	flash_data[9] = "device.relay_set_point";
+	flash_data[10] = "device.zero_percent";
+	flash_data[11] = "device.user_id";
+	flash_data[12] = "device.speed_status";
+	flash_data[13] = "0";
+	flash_data[14] = "device.mode";
+
+	for (int i=0;i < 15; i++){
+		ui->comboBox->addItem(flash_data[i]);
+	}
+}
+
+void MainWindow::dataParser(const QString data)
+{
+	QChar c1 = data.at(0);
+	QChar c2 = data.at(1);
+	QChar c3 = data.at(2);
+	QChar c4 = data.at(3);
+	QChar c5 = data.at(4);
+	QChar c6 = data.at(5);
+
+	qDebug() << "data1" <<c1 << " " << c2 << " " << c3 << " " << c4 << " " << c5 << " "<<c6;
 
 }
+
+
 
 

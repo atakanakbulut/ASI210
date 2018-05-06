@@ -54,7 +54,7 @@ private slots:
     void getCustomParam();
     void on_pushButton_6_clicked();
 
-    void setValueToLCD(QByteArray ba);
+	void setValueToLCD(QString ba);
 
 
 	void on_actionSet_server_adress_triggered();
@@ -66,6 +66,8 @@ private:
 	netman *sock;
 
 	QTimer *tim;
+	void dataForASI();
+	void dataParser(const QString data);
 };
 
 #endif // MAINWINDOW_H

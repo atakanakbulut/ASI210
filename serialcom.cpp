@@ -16,7 +16,7 @@ serialcom::serialcom(QObject *parent) : QObject(parent)
 void serialcom::initlizer()
 {
 
-	QString array2 = "aa";
+	QString array2 = "PROGRAM INITLIZED";
 	emit newTest(array2);
 }
 

@@ -31,8 +31,7 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui \
     startup.ui
 
-DISTFILES += \
-    back.png
+DISTFILES +=
 
 RESOURCES += \
     images.qrc

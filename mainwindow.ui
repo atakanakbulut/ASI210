@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>920</width>
-    <height>632</height>
+    <width>1109</width>
+    <height>699</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,11 +22,11 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab_1">
        <attribute name="title">
-        <string>ASI210</string>
+        <string> ASI210 </string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="1" column="0">
@@ -151,7 +151,7 @@
                   <number>1</number>
                  </property>
                  <property name="mode">
-                  <enum>QLCDNumber::Dec</enum>
+                  <enum>QLCDNumber::Hex</enum>
                  </property>
                  <property name="segmentStyle">
                   <enum>QLCDNumber::Filled</enum>
@@ -236,7 +236,7 @@
       </widget>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
-        <string>Debugging</string>
+        <string> DEBUGGING </string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_5">
         <item row="0" column="0">
@@ -250,7 +250,7 @@
       </widget>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
-        <string>Custom Step</string>
+        <string> CUSTOM STEP </string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_7">
         <item row="0" column="0">
@@ -262,11 +262,9 @@
             </property>
             <layout class="QGridLayout" name="gridLayout_11">
              <item row="0" column="0">
-              <widget class="QPlainTextEdit" name="plainTextEdit"/>
+              <widget class="QPlainTextEdit" name="custom_step_console"/>
              </item>
             </layout>
-            <zorder>groupBox_2</zorder>
-            <zorder>plainTextEdit</zorder>
            </widget>
           </item>
           <item row="0" column="0">
@@ -346,43 +344,30 @@
       </widget>
       <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>Page</string>
+        <string>DISPLAY</string>
        </attribute>
-       <widget class="QLabel" name="label_2">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>20</y>
-          <width>851</width>
-          <height>391</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QWidget" name="">
-        <property name="geometry">
-         <rect>
-          <x>80</x>
-          <y>460</y>
-          <width>751</width>
-          <height>29</height>
-         </rect>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_12">
-         <item row="0" column="0">
-          <widget class="QLineEdit" name="lineEdit_label"/>
-         </item>
-         <item row="0" column="1">
-          <widget class="QPushButton" name="pushButton_7">
-           <property name="text">
-            <string>PushButton</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
+       <layout class="QGridLayout" name="gridLayout_12">
+        <item row="0" column="0" colspan="2">
+         <widget class="QLabel" name="LCD_label">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="openExternalLinks">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLineEdit" name="send_data_lineedit"/>
+        </item>
+        <item row="1" column="1">
+         <widget class="QPushButton" name="data_send_button">
+          <property name="text">
+           <string>send</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -410,7 +395,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>920</width>
+     <width>1109</width>
      <height>25</height>
     </rect>
    </property>

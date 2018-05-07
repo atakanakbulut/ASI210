@@ -24,11 +24,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-// CREATED NEW OBJECTS
+	// CREATED NEW OBJECTS
 	serialc = new serialcom;
 	sock = new netman;
 
-// SERIAL PORT INITLIZING
+	// SERIAL PORT INITLIZING
 	bool status = serialc->openConnetions();	// sopenConnetions();
 	if (status) {
 		ui->connectionstatus->setStyleSheet(green);
@@ -40,10 +40,13 @@ MainWindow::MainWindow(QWidget *parent) :
 		ui->console->appendPlainText("not connected to "
 									 "ttyUSB0\nPlease check Serial converter or device");
 	}
+	// get memory address for initlizing
+	int value = 0;
+	int step = 0;
 
 	dataForASI();
 
-//USER INTERFACE OPTIONS
+	//USER INTERFACE OPTIONS
 	QPixmap pixmap1(":/stop.png");
 	QIcon ButtonIcon1(pixmap1);
 	ui->pushButton_1->setIcon(ButtonIcon1);
@@ -71,19 +74,27 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->lcdNumber_5->setPalette(Qt::red);
 	ui->lcdNumber_6->setPalette(Qt::red);
 
-// SIGNALS AND SLOTS
+	QFont font("Arial", 206, QFont::Bold);
+	ui->LCD_label->setFont(font);
+	ui->LCD_label->setAlignment(Qt::AlignCenter);
+	ui->LCD_label->setText("000000");
+
+	// SIGNALS AND SLOTS
 	QTimer *timer = new QTimer(this);
 	connect(timer, SIGNAL(timeout()),this, SLOT(testTool()));
-	timer->start(3000);
-	connect(serialc, SIGNAL(speak(QString)),this,SLOT(readNewData(QString)));
+	timer->start(7000);
 	connect(serialc, SIGNAL(newTest(QString)),this,SLOT(Ledinit(QString)));
 	connect(serialc,SIGNAL(sDebug(QString)),ui->console,SLOT(appendPlainText(QString)));
 	serialc->initlizer();
 	application a;
 	a.buttonSettings();
-	dataParser(" TAKA ");
 	connect(sock,SIGNAL(newUdpData(QString)),ui->console,SLOT(appendPlainText(QString)));
-	setToDisplay("TEST");
+
+	connect(serialc, SIGNAL(speak(QString)),ui->console,SLOT(appendPlainText(QString)));
+	connect(serialc, SIGNAL(speak(QString)), this, SLOT(setToLcdLabel(QString)));
+	connect(serialc, SIGNAL(sDebug(QString)), this, SLOT(setToLcdLabel(QString)));
+	connect(serialc, SIGNAL(speak(QString)),ui->custom_step_console, SLOT(appendPlainText(QString)));
+	connect(serialc, SIGNAL(writtenData(QString)),ui->console,SLOT(appendPlainText(QString)));
 }
 
 MainWindow::~MainWindow()
@@ -143,7 +154,6 @@ void MainWindow::readNewData(QString data)
 {
 	ui->console->insertPlainText(data);
 	ui->console->moveCursor(QTextCursor::Down);
-
 	qDebug() << data << "BURAYA GELIYOR";
 
 }
@@ -248,7 +258,7 @@ void MainWindow::on_pushButton_5_clicked()
 void MainWindow::getCustomParam()
 {
 	QDir *dir;
-	QFile file( dir->currentPath()+"/customcommands.txt");
+	QFile file(dir->currentPath()+"/customcommands.txt");
 	if (file.open(QIODevice::ReadOnly))
 	{
 		QString str = file.readAll();
@@ -267,7 +277,7 @@ void MainWindow::on_actionSet_server_adress_triggered()
 {
 	bool ok;
 	QString text = QInputDialog::getText(this, tr("Please Input server and port"),
-										 tr("User name:"), QLineEdit::Normal,
+										 tr("Server Adress:"), QLineEdit::Normal,
 										 "10.50.255.225:6750", &ok);
 
 	QStringList list = text.split(":");
@@ -307,37 +317,74 @@ void MainWindow::dataForASI()
 
 void MainWindow::dataParser(const QString data)
 {
-	QChar c1 = data.at(0);
-	QChar c2 = data.at(1);
-	QChar c3 = data.at(2);
-	QChar c4 = data.at(3);
-	QChar c5 = data.at(4);
-	QChar c6 = data.at(5);
-
-	qDebug() << "data1" <<c1 << " " << c2 << " " << c3 << " " << c4 << " " << c5 << " "<<c6;
-
-}
-
-void MainWindow::setToDisplay(QString str)
-{/*
-	ui->lcdNumber_6->display(str.at(0));
-	ui->lcdNumber_5->display(str.at(1));
-	ui->lcdNumber_4->display(str.at(2));
-	ui->lcdNumber_3->display(str.at(3));
-	ui->lcdNumber_2->display(str.at(4));
-	ui->lcdNumber_1->display(str.at(5));*/
+	qDebug() << "data parser func";
 }
 
 QString MainWindow::convertDisplayChar(QString str, bool LCDmode )
 {
+	if(str.count() == 6){
+		qDebug() << "6 DIGIT";
+		return str;
+	}
+	else if(str.count() == 4 ){
+		qDebug() << "CONTROLLING FOR DATA DECIMAN POINT";
+		return str;
+	}
+	else
+		return "0";
 
-	return str;
 }
 
 void MainWindow::on_pushButton_7_clicked()
 {
-	QByteArray str = ui->lineEdit_label->text().toUtf8();
-			if(str.isEmpty() || str.isNull())
-				return;
-	serialc->writeReadyData(str);
+	qDebug() << "button 7";
 }
+
+void MainWindow::on_data_send_button_clicked()
+{
+	QByteArray ba = ui->send_data_lineedit->text().toLocal8Bit();
+	serialc->writeReadyData(ba);
+}
+
+void MainWindow::setToLcdLabel(QString str)
+{
+	QString parsedData = convertDisplayChar(str,true);
+	if(parsedData == "0")
+		return;
+	else if(parsedData.contains("0x")){
+		qDebug() << "its decimal data will parsing";
+		QStringList list = str.split("x");
+		//QString str = str.remove(0,2);
+		convert = new converter;
+		if(!list.at(1).isNull())
+			value = convert->toSmallDecimalPoint(list.at(1));
+		qDebug() << "buraya geliyor str.at.isnot null and get int value" << value;
+		if(value == 0)
+			ui->label->setText("______");
+		else if(value == 99)
+			return;
+		else if (value > 0 && value < 7 ){
+			qDebug() << "burayada giriyor " << value;
+			QString display = addLCDpoint(value, ui->LCD_label->text().toLatin1());
+			ui->LCD_label->setText(display);
+			return;
+		}
+		else
+			return;
+	}
+	ui->LCD_label->setText(parsedData);
+}
+
+QString MainWindow::addLCDpoint(int dot, QString str)
+{
+	qDebug() << "buraya giriyor addlcdpoint";
+	if (str.isEmpty() || str.isNull())
+		return "";
+	QString data = str.insert(dot, dotChar);
+	qDebug() <<"data is" <<data;
+	return data;
+}
+
+
+
+

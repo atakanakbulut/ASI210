@@ -19,7 +19,6 @@ startup::startup(QWidget *parent) :
 	ui->image->resize(500,320);
 	ui->image->setAlignment(Qt::AlignCenter);
 	statlogin = false;
-
 }
 
 startup::~startup()
@@ -72,3 +71,4 @@ void startup::delay()
 	while (QTime::currentTime() < dieTime)
 		QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }
+

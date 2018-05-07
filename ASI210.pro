@@ -20,13 +20,15 @@ SOURCES += main.cpp\
     serialcom.cpp \
     startup.cpp \
     application.cpp \
-    netman.cpp
+    netman.cpp \
+    converter.cpp
 
 HEADERS  += mainwindow.h \
     serialcom.h \
     startup.h \
     application.h \
-    netman.h
+    netman.h \
+    converter.h
 
 FORMS    += mainwindow.ui \
     startup.ui

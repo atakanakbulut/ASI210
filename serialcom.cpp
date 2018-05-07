@@ -64,7 +64,10 @@ void serialcom::readData()
 void serialcom::writeReadyData(QByteArray ba)
 {
 	qDebug() << "Written data is" << ba;
-	serial->write(ba);
+	if(serial->write(ba)){
+		QString data = QString::fromUtf8(ba);
+		emit writtenData(data);
+	}
 }
 
 bool serialcom::currentState()
@@ -93,5 +96,6 @@ void serialcom::handleError(QSerialPort::SerialPortError error)
 }
 
 void serialcom::debugging(){
-	emit sDebug("test-atakan");
+	emit sDebug("ASI210");
+	emit sDebug("0x02");
 }

@@ -19,6 +19,7 @@ signals:
 	void speak(QString ba);
 	void newTest(QString str);
 	void sDebug(QString debugString);
+	void writtenData(QString str);
 public slots:
 	void readData();
 	bool currentState();

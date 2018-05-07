@@ -9,7 +9,7 @@ application::application()
 void application::buttonSettings()
 {
 	MenuButtons button;
-	button.leftShift = "eee";
+	button.leftShift = "";
 	qcout << button.leftShift;
 	test(&button);
 }
@@ -21,5 +21,5 @@ bool application::controller(QString text){
 }
 
 void application::test(MenuButtons *menu){
-	qcout << "this" << menu->leftShift;
+
 }

@@ -2,7 +2,6 @@
 #include "startup.h"
 #include <QApplication>
 #include <QObject>
-#include <QDebug>
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
@@ -15,7 +14,6 @@ int main(int argc, char *argv[])
 			MainWindow w;
 			s.hide();
 			w.show();
-			qDebug() << "program started";
 			return a.exec();
 		}
 	}

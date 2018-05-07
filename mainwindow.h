@@ -59,6 +59,11 @@ private slots:
 
 	void on_actionSet_server_adress_triggered();
 
+	void setToDisplay(QString str);
+
+	QString convertDisplayChar(QString str, bool LCDmode);
+	void on_pushButton_7_clicked();
+
 private:
 	Ui::MainWindow *ui;
 

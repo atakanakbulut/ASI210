@@ -53,14 +53,12 @@ bool serialcom::connectionStatus()
 		return false;
 }
 
-QString serialcom::readData()
+void serialcom::readData()
 {
 	qDebug() << serial->readAll() << "gelen data";
 	QByteArray ba = serial->readAll();
 	QString str = QString::fromUtf8(ba);
-
 	emit speak(str);
-	return str;
 }
 
 void serialcom::writeReadyData(QByteArray ba)

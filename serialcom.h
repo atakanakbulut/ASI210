@@ -20,7 +20,7 @@ signals:
 	void newTest(QString str);
 	void sDebug(QString debugString);
 public slots:
-	QString readData();
+	void readData();
 	bool currentState();
 	void debugging();
 private slots:

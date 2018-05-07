@@ -83,6 +83,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	a.buttonSettings();
 	dataParser(" TAKA ");
 	connect(sock,SIGNAL(newUdpData(QString)),ui->console,SLOT(appendPlainText(QString)));
+	setToDisplay("TEST");
 }
 
 MainWindow::~MainWindow()
@@ -317,6 +318,26 @@ void MainWindow::dataParser(const QString data)
 
 }
 
+void MainWindow::setToDisplay(QString str)
+{/*
+	ui->lcdNumber_6->display(str.at(0));
+	ui->lcdNumber_5->display(str.at(1));
+	ui->lcdNumber_4->display(str.at(2));
+	ui->lcdNumber_3->display(str.at(3));
+	ui->lcdNumber_2->display(str.at(4));
+	ui->lcdNumber_1->display(str.at(5));*/
+}
 
+QString MainWindow::convertDisplayChar(QString str, bool LCDmode )
+{
 
+	return str;
+}
 
+void MainWindow::on_pushButton_7_clicked()
+{
+	QByteArray str = ui->lineEdit_label->text().toUtf8();
+			if(str.isEmpty() || str.isNull())
+				return;
+	serialc->writeReadyData(str);
+}

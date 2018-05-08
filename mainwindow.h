@@ -57,6 +57,7 @@ private slots:
 	QString convertDisplayChar(QString str, bool LCDmode);
 	QString addLCDpoint(int dot, QString str);
 
+	QString addLCDpoint2(QString dot, QString str);
 private:
 	Ui::MainWindow *ui;
 

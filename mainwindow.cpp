@@ -335,11 +335,6 @@ QString MainWindow::convertDisplayChar(QString str, bool LCDmode )
 
 }
 
-void MainWindow::on_pushButton_7_clicked()
-{
-	qDebug() << "button 7";
-}
-
 void MainWindow::on_data_send_button_clicked()
 {
 	QByteArray ba = ui->send_data_lineedit->text().toLocal8Bit();
@@ -352,25 +347,29 @@ void MainWindow::setToLcdLabel(QString str)
 	if(parsedData == "0")
 		return;
 	else if(parsedData.contains("0x")){
-		qDebug() << "its decimal data will parsing";
 		QStringList list = str.split("x");
-		//QString str = str.remove(0,2);
+		QString newValue;
 		convert = new converter;
 		if(!list.at(1).isNull())
-			value = convert->toSmallDecimalPoint(list.at(1));
+			newValue = convert->toSmallDecimalPoint(list.at(1));
 		qDebug() << "buraya geliyor str.at.isnot null and get int value" << value;
-		if(value == 0)
+
+		if(newValue == "0")
 			ui->label->setText("______");
-		else if(value == 99)
+		else if(newValue == "99")
 			return;
-		else if (value > 0 && value < 7 ){
+		else if (newValue.count() == 1 ){
 			qDebug() << "burayada giriyor " << value;
-			QString display = addLCDpoint(value, ui->LCD_label->text().toLatin1());
+			QString display = addLCDpoint(newValue.toInt(), ui->LCD_label->text().toLatin1());
 			ui->LCD_label->setText(display);
 			return;
 		}
-		else
+		else{
+			qDebug() << "my function working";
+			ui->LCD_label->setText(addLCDpoint2(newValue,ui->LCD_label->text().toLatin1()));
 			return;
+		}
+
 	}
 	ui->LCD_label->setText(parsedData);
 }
@@ -385,6 +384,18 @@ QString MainWindow::addLCDpoint(int dot, QString str)
 	return data;
 }
 
+QString MainWindow::addLCDpoint2(QString dot, QString str)
+{
+	qDebug() << str << dot;
+	if(str.isEmpty())
+		return "";
 
+	int counter = dot.count() - (( dot.count()-1 ) / 2);
+	QStringList list = dot.split(",");
+	for(int i = 0; i<counter; i++ ){
+		QString value = list.at(0);
 
-
+		QString str = str.insert(value.toInt()+1, dotChar);
+	}
+	return str;
+}

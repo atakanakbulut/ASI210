@@ -12,7 +12,7 @@ signals:
 
 public slots:
 	QString fromHexToBinary(QString string);
-	int toSmallDecimalPoint(QString str);
+	QString toSmallDecimalPoint(QString str);
 	QString fromHexToBinary2(QString string);
 private slots:
 };

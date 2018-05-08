@@ -56,6 +56,13 @@ bool serialcom::connectionStatus()
 void serialcom::readData()
 {
 	qDebug() << serial->readAll() << "gelen data";
+
+			qDebug() << "Written data is" << ba;
+			if(serial->write(ba)){
+				QString data = QString::fromUtf8(ba);
+				emit writtenData(data);
+			}
+
 	QByteArray ba = serial->readAll();
 	QString str = QString::fromUtf8(ba);
 	emit speak(str);
@@ -63,12 +70,6 @@ void serialcom::readData()
 
 void serialcom::writeReadyData(QByteArray ba)
 {
-	qDebug() << "Written data is" << ba;
-	if(serial->write(ba)){
-		QString data = QString::fromUtf8(ba);
-		emit writtenData(data);
-	}
-}
 
 bool serialcom::currentState()
 {

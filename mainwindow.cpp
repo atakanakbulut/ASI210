@@ -389,13 +389,49 @@ QString MainWindow::addLCDpoint2(QString dot, QString str)
 	qDebug() << str << dot;
 	if(str.isEmpty())
 		return "";
+	if(dot.count() > 3)
+		return ui->LCD_label->text().toLatin1();
 
-	int counter = dot.count() - (( dot.count()-1 ) / 2);
 	QStringList list = dot.split(",");
-	for(int i = 0; i<counter; i++ ){
-		QString value = list.at(0);
+	QString n1 = list.at(0);
+	QString n2 = list.at(1);
+	QString data = str.insert(n1.toInt(), dotChar);
+	mystring = data.insert(n2.toInt()+1, dotChar);
 
-		QString str = str.insert(value.toInt()+1, dotChar);
-	}
-	return str;
+
+//	int counter = dot.count() - (( dot.count()-1 ) / 2);
+//	QStringList list = dot.split(",");
+//	for(int i = 0; i<counter; i++ ){
+//		QString value = list.at(0);
+//		qDebug() << value << "value is" << "coutner is "<<counter;
+//		QString stra = str.insert(value.toInt()+i, dotChar);
+//		qDebug() << str << "str is";
+//		if(!counter > i){
+//			mystring = stra.insert(value.toInt() +i+1,dotChar );
+//		i = i + 1;
+//		}
+//		else if(!counter > i){
+//			mystring = stra.insert(value.toInt() +i+1,dotChar );
+//		i = i +1;
+//		}
+//		else if(counter > i ){
+//			mystring = stra.insert(value.toInt() +i+1,dotChar );
+//		i = i +1;
+//		}
+//		else if(counter > i ){
+//			mystring = stra.insert(value.toInt() +i+1,dotChar );
+//		i = i +1;
+//		}
+//		else if(counter > i ){
+//			mystring = stra.insert(value.toInt() +i+1,dotChar );
+//		i = i +1;
+//		}
+//		else if(counter > i ){
+//			mystring = stra.insert(value.toInt() +i,dotChar );
+//		i = i +1;
+//		}
+//		else
+//			return mystring;
+
+	return mystring;
 }

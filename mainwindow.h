@@ -17,6 +17,14 @@
 #include <QInputDialog>
 #include "converter.h"
 
+
+typedef char s8;
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef signed int s32;
+
+
+
 namespace Ui {
 class MainWindow;
 }
@@ -38,8 +46,11 @@ public slots:
 	void setToLcdLabel(QString str);
 	void controller(const QString param);
 	void testTool();
-	void showToLCD(QString str);
-	void showLCDLabel2(QString str);
+	void showLCDLabel2(QByteArray str);
+	u32 crc_chk(u8 *data, u8 length);
+	void checksumServer(QByteArray getData);
+	void checksumClient(QString rawData);
+	QString textConverter(QString str);
 private slots:
 	void on_actionAbout_ASI210_triggered();
 	void on_actionChange_Background_triggered();
@@ -56,12 +67,12 @@ private slots:
     void on_pushButton_6_clicked();
 	void setValueToLCD(QString ba);
 	void on_actionSet_server_adress_triggered();
-	void on_data_send_button_clicked();
+
 
 	QString convertDisplayChar(QString str, bool LCDmode);
 	QString addLCDpoint(int dot, QString str);
 
-	QString addLCDpoint2(QString dot, QString str);
+
 private:
 	Ui::MainWindow *ui;
 

@@ -18,6 +18,8 @@
 
 #include<QProcess>
 
+
+
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow)
@@ -70,30 +72,24 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	oldData = "";
 	QFont font("Arial", 196, QFont::Bold);
-	ui->LCD_label->setFont(font);
-	ui->LCD_label->setAlignment(Qt::AlignCenter);
-	ui->LCD_label->setText("000000");
 
 	ui->LCDLABEL2->setFont(font);
-	ui->LCDLABEL2->setAlignment(Qt::AlignCenter);
-	ui->LCDLABEL2->setText("______");
+	ui->LCDLABEL2->setAlignment(Qt::AlignVCenter);
+	ui->LCDLABEL2->setText("------");
 
 	// SIGNALS AND SLOTS
 	QTimer *timer = new QTimer(this);
 	connect(timer, SIGNAL(timeout()),this, SLOT(testTool()));
 	timer->start(7000);
-	connect(serialc, SIGNAL(newTest(QString)),this,SLOT(Ledinit(QString)));
-	connect(serialc,SIGNAL(sDebug(QString)),ui->console,SLOT(appendPlainText(QString)));
+	//connect(serialc,SIGNAL(sDebug(QString)),ui->console,SLOT(appendPlainText(QString)));
 	serialc->initlizer();
 	application a;
 	a.buttonSettings();
 	connect(sock,SIGNAL(newUdpData(QString)),ui->console,SLOT(appendPlainText(QString)));
 
-	connect(serialc, SIGNAL(speak(QString)),this, SLOT(showLCDLabel2(QString)));
-	//connect(serialc, SIGNAL(speak(QString)),ui->console,SLOT(appendPlainText(QString)));
-	//connect(serialc, SIGNAL(speak(QString)), this, SLOT(setToLcdLabel(QString)));
-	//connect(serialc, SIGNAL(sDebug(QString)), this, SLOT(setToLcdLabel(QString)));
-	connect(serialc, SIGNAL(speak(QString)),ui->custom_step_console, SLOT(appendPlainText(QString)));
+	connect(serialc, SIGNAL(speak(QByteArray)),this, SLOT(showLCDLabel2(QByteArray)));
+
+	connect(serialc, SIGNAL(speak(QByteArray)),ui->custom_step_console, SLOT(appendPlainText(QByteArray)));
 	connect(serialc, SIGNAL(writtenData(QString)),ui->console,SLOT(appendPlainText(QString)));
 }
 
@@ -126,8 +122,6 @@ void MainWindow::on_actionBlack_triggered()
 	ui->pushButton_3->setStyleSheet(yellows);
 	ui->pushButton_4->setStyleSheet(yellows);
 	ui->sender->setStyleSheet(yellows);
-
-
 }
 
 void MainWindow::on_sender_clicked()
@@ -187,9 +181,9 @@ void MainWindow::controller(const QString param)
 
 void MainWindow::testTool(){
 
-	controller("active");
+	//controller("active");
 	controller("datawritable");
-	controller("debug");
+	//controller("debug");
 }
 
 void MainWindow::on_actionHow_to_use_ASI210_triggered()
@@ -323,12 +317,6 @@ QString MainWindow::convertDisplayChar(QString str, bool LCDmode )
 
 }
 
-void MainWindow::on_data_send_button_clicked()
-{
-	QByteArray ba = ui->send_data_lineedit->text().toLocal8Bit();
-	serialc->writeReadyData(ba);
-}
-
 void MainWindow::setToLcdLabel(QString str)
 {
 	qDebug() << "emmitted signal" <<str;
@@ -349,18 +337,14 @@ void MainWindow::setToLcdLabel(QString str)
 			return;
 		else if (newValue.count() == 1 ){
 			qDebug() << "burayada giriyor " << value;
-			QString display = addLCDpoint(newValue.toInt(), ui->LCD_label->text().toLatin1());
-			ui->LCD_label->setText(display);
 			return;
 		}
 		else{
 			qDebug() << "my function working";
-			ui->LCD_label->setText(addLCDpoint2(newValue,ui->LCD_label->text().toLatin1()));
 			return;
 		}
 
 	}
-	ui->LCD_label->setText(parsedData);
 }
 
 QString MainWindow::addLCDpoint(int dot, QString str)
@@ -373,80 +357,131 @@ QString MainWindow::addLCDpoint(int dot, QString str)
 	return data;
 }
 
-QString MainWindow::addLCDpoint2(QString dot, QString str)
-{
-	qDebug() << str << dot;
-	if(str.isEmpty())
-		return "";
-	if(dot.count() > 3)
-		return ui->LCD_label->text().toLatin1();
+void MainWindow::showLCDLabel2(QByteArray str)
+{	qDebug() << str;
+	int counter = 0;
 
-	QStringList list = dot.split(",");
-	QString n1 = list.at(0);
-	QString n2 = list.at(1);
-	QString data = str.insert(n1.toInt(), dotChar);
-	mystring = data.insert(n2.toInt()+1, dotChar);
+	QString mystr = QString::fromUtf8(str.constData());
+
+	QString mystr1 = QString::fromUtf8(str);
+//	qDebug() << eqs.count()<< "list count";
+
+	qDebug() << "#####################################33"<<str.size();
+//	//QString s1 = eqs.at(0);
+//	QString s2 = eqs.at(1);
+//	QString s3 = eqs.at(2);
+//	QString s4 = eqs.at(3);
+//	QString s5 = eqs.at(4);
+//	QString s6 = eqs.at(5);
+
+//	qDebug() << "s1" << s2 << s3 << s4 << s5 << s6;
 
 
-//	int counter = dot.count() - (( dot.count()-1 ) / 2);
-//	QStringList list = dot.split(",");
-//	for(int i = 0; i<counter; i++ ){
-//		QString value = list.at(0);
-//		qDebug() << value << "value is" << "coutner is "<<counter;
-//		QString stra = str.insert(value.toInt()+i, dotChar);
-//		qDebug() << str << "str is";
-//		if(!counter > i){
-//			mystring = stra.insert(value.toInt() +i+1,dotChar );
-//		i = i + 1;
-//		}
-//		else if(!counter > i){
-//			mystring = stra.insert(value.toInt() +i+1,dotChar );
-//		i = i +1;
-//		}
-//		else if(counter > i ){
-//			mystring = stra.insert(value.toInt() +i+1,dotChar );
-//		i = i +1;
-//		}
-//		else if(counter > i ){
-//			mystring = stra.insert(value.toInt() +i+1,dotChar );
-//		i = i +1;
-//		}
-//		else if(counter > i ){
-//			mystring = stra.insert(value.toInt() +i+1,dotChar );
-//		i = i +1;
-//		}
-//		else if(counter > i ){
-//			mystring = stra.insert(value.toInt() +i,dotChar );
-//		i = i +1;
-//		}
-//		else
-//			return mystring;
+	/*
 
-	return mystring;
-}
+	if(ch1.toLatin1() == " ")
+		counter = counter +1;
+	if(ch2 == " ")
+		counter = counter +1;
+	if(ch3 == " ")
+		counter = counter +1;
+	if(ch4 == " ")
+		counter = counter +1;
+	if(ch5 == " ")
+		counter = counter +1;
+	if(ch6 == " ")
+		counter = counter +1;
 
-void MainWindow::showToLCD(QString str)
-{
 
-}
-
-void MainWindow::showLCDLabel2(QString str)
-{
-	if(str.count() > 12)
+	/*if(counter > 4)
+		return;*/
+/*
+	qDebug() << "#####################################################" << counter;
+	*/
+	if(str.size() > 6)
+		ui->LCDLABEL2->setText(textConverter(str.constData()));
+	else {
 		return;
-
-	if(str.contains('\b')){
-		QStringList mlist = str.split('\b');
-			ui->LCDLABEL2->setText(mlist.at(0));
-			return;
-	}/*
-	else if(str.contains("\u")){
-		QString mlist = str.split("\u");
-		ui->LCDLABEL2->setText(mlist.at(0));
-			return;
-	}*/
-	else
-	ui->LCDLABEL2->setText(str);
-
+	}
 }
+
+QString MainWindow::textConverter(QString str)
+{
+	str.replace("R","r");
+	str.replace("a","A");
+	str.replace("O","0");
+	str.replace("T","t");
+	str.replace("D","d");
+	str.replace("B","b");
+	str.replace("U","U");
+	return str;
+}
+
+
+// PART OF CHECKSUM
+
+u32 MainWindow::crc_chk(u8* data, u8 length) {
+	int j;
+	u32 reg_crc=0xFFFF;
+
+	while( length-- ) {
+		reg_crc^= *data++;
+		for (j=0; j<8; j++ ) {
+			reg_crc = (reg_crc & 0x01) ? ((reg_crc >> 1)^0xA001) : (reg_crc>>1);
+		}
+	}
+	return reg_crc;
+}
+
+void MainWindow::checksumServer(QByteArray getData)
+{
+	u32 fcrc;
+	u8 crc_low,crc_high;
+	fcrc = crc_chk((u8*)getData.data(),23);
+	crc_high = (fcrc)%256;
+	crc_low = (fcrc)/256;
+	if((crc_high == (u8)getData[23])&&(crc_low == (u8)getData[24])){
+		bool communication_established = true;
+		if(communication_established){
+			ui->LCDLABEL2->setText(getData);
+		}
+	}
+}
+
+void MainWindow::checksumClient(QString rawData)
+{
+	u32 fcrc;
+	u8 crc_low,crc_high;
+/*
+	s->Tx_buffer[19] = input_status[0];
+	s->Tx_buffer[20] = input_status[1];
+	s->Tx_buffer[21] = alarm_input;
+	s->Tx_buffer[22] = home_input;
+	fcrc = crc_chk((u8*)s->Tx_buffer,23);
+	crc_high = (fcrc)%256;
+	crc_low = (fcrc)/256;
+	s->Tx_buffer[23] = crc_high;
+	s->Tx_buffer[24] = crc_low;
+	*/
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

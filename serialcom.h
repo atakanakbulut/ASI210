@@ -16,7 +16,7 @@ public:
 	bool openConnetions();
 	bool byteWritable();
 signals:
-	void speak(QString ba);
+	void speak(QByteArray ba);
 	void newTest(QString str);
 	void sDebug(QString debugString);
 	void writtenData(QString str);

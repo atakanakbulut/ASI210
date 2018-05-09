@@ -25,7 +25,7 @@ bool serialcom::openConnetions()
 	try {
 		serial->setPortName("ttyUSB0");
 		if(serial->open(QIODevice::ReadWrite))
-			if (serial->setBaudRate(QSerialPort::Baud9600)
+			if (serial->setBaudRate(QSerialPort::Baud38400)
 					&& serial->setDataBits(QSerialPort::Data8)
 					&& serial->setParity(QSerialPort::NoParity)
 					&& serial->setStopBits(QSerialPort::OneStop)
@@ -55,10 +55,10 @@ bool serialcom::connectionStatus()
 
 void serialcom::readData()
 {
-	qDebug() << serial->readAll() << "gelen data";
-	QByteArray ba = serial->readAll();
-	QString str = QString::fromUtf8(ba);
-	emit speak(str);
+	QString ba = serial->readAll();
+	qDebug() << ba << "gelendata";
+
+	emit speak(ba);
 }
 
 void serialcom::writeReadyData(QByteArray ba)
@@ -97,5 +97,6 @@ void serialcom::handleError(QSerialPort::SerialPortError error)
 
 void serialcom::debugging(){
 	//emit sDebug("ASI210");
-	//mit sDebug("0x09");
+	//emit sDebug("0x09");
 }
+

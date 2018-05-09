@@ -67,17 +67,16 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->pushButton_4->setIcon(ButtonIcon4);
 	ui->pushButton_4->setIconSize(pixmap4.rect().size());
 
-	ui->lcdNumber_1->setPalette(Qt::red);
-	ui->lcdNumber_2->setPalette(Qt::red);
-	ui->lcdNumber_3->setPalette(Qt::red);
-	ui->lcdNumber_4->setPalette(Qt::red);
-	ui->lcdNumber_5->setPalette(Qt::red);
-	ui->lcdNumber_6->setPalette(Qt::red);
 
-	QFont font("Arial", 206, QFont::Bold);
+	oldData = "";
+	QFont font("Arial", 196, QFont::Bold);
 	ui->LCD_label->setFont(font);
 	ui->LCD_label->setAlignment(Qt::AlignCenter);
 	ui->LCD_label->setText("000000");
+
+	ui->LCDLABEL2->setFont(font);
+	ui->LCDLABEL2->setAlignment(Qt::AlignCenter);
+	ui->LCDLABEL2->setText("______");
 
 	// SIGNALS AND SLOTS
 	QTimer *timer = new QTimer(this);
@@ -90,9 +89,10 @@ MainWindow::MainWindow(QWidget *parent) :
 	a.buttonSettings();
 	connect(sock,SIGNAL(newUdpData(QString)),ui->console,SLOT(appendPlainText(QString)));
 
-	connect(serialc, SIGNAL(speak(QString)),ui->console,SLOT(appendPlainText(QString)));
-	connect(serialc, SIGNAL(speak(QString)), this, SLOT(setToLcdLabel(QString)));
-	connect(serialc, SIGNAL(sDebug(QString)), this, SLOT(setToLcdLabel(QString)));
+	connect(serialc, SIGNAL(speak(QString)),this, SLOT(showLCDLabel2(QString)));
+	//connect(serialc, SIGNAL(speak(QString)),ui->console,SLOT(appendPlainText(QString)));
+	//connect(serialc, SIGNAL(speak(QString)), this, SLOT(setToLcdLabel(QString)));
+	//connect(serialc, SIGNAL(sDebug(QString)), this, SLOT(setToLcdLabel(QString)));
 	connect(serialc, SIGNAL(speak(QString)),ui->custom_step_console, SLOT(appendPlainText(QString)));
 	connect(serialc, SIGNAL(writtenData(QString)),ui->console,SLOT(appendPlainText(QString)));
 }
@@ -115,13 +115,8 @@ void MainWindow::on_actionChange_Background_triggered()
 	ui->pushButton_3->setStyleSheet(black);
 	ui->pushButton_4->setStyleSheet(black);
 	ui->sender->setStyleSheet(black);
-	ui->lcdNumber_1->setStyleSheet(gray);
-	ui->lcdNumber_2->setStyleSheet(gray);
-	ui->lcdNumber_3->setStyleSheet(gray);
-	ui->lcdNumber_4->setStyleSheet(gray);
-	ui->lcdNumber_5->setStyleSheet(gray);
-}
 
+}
 void MainWindow::on_actionBlack_triggered()
 {
 	this->setStyleSheet(black);
@@ -131,15 +126,8 @@ void MainWindow::on_actionBlack_triggered()
 	ui->pushButton_3->setStyleSheet(yellows);
 	ui->pushButton_4->setStyleSheet(yellows);
 	ui->sender->setStyleSheet(yellows);
-	ui->lcdNumber_1->setStyleSheet(gray);
-	ui->lcdNumber_2->setStyleSheet(gray);
-	ui->lcdNumber_3->setStyleSheet(gray);
-	ui->lcdNumber_4->setStyleSheet(gray);
-	ui->lcdNumber_5->setStyleSheet(gray);
 
-	ui->lcdNumber_3->setPalette(Qt::red);
-	ui->lcdNumber_4->setPalette(Qt::red);
-	ui->lcdNumber_5->setPalette(Qt::red);
+
 }
 
 void MainWindow::on_sender_clicked()
@@ -288,7 +276,7 @@ void MainWindow::on_actionSet_server_adress_triggered()
 
 void MainWindow::setValueToLCD(QString ba)
 {
-	ui->lcdNumber_1->display("3.14");
+
 }
 
 void MainWindow::dataForASI()
@@ -343,6 +331,7 @@ void MainWindow::on_data_send_button_clicked()
 
 void MainWindow::setToLcdLabel(QString str)
 {
+	qDebug() << "emmitted signal" <<str;
 	QString parsedData = convertDisplayChar(str,true);
 	if(parsedData == "0")
 		return;
@@ -435,3 +424,29 @@ QString MainWindow::addLCDpoint2(QString dot, QString str)
 
 	return mystring;
 }
+
+void MainWindow::showToLCD(QString str)
+{
+
+}
+
+void MainWindow::showLCDLabel2(QString str)
+{
+	if(str.count() > 12)
+		return;
+
+	if(str.contains('\b')){
+		QStringList mlist = str.split('\b');
+			ui->LCDLABEL2->setText(mlist.at(0));
+			return;
+	}/*
+	else if(str.contains("\u")){
+		QString mlist = str.split("\u");
+		ui->LCDLABEL2->setText(mlist.at(0));
+			return;
+	}*/
+	else
+	ui->LCDLABEL2->setText(str);
+
+}
+

@@ -29,13 +29,17 @@ public:
 	explicit MainWindow(QWidget *parent = 0);
 	~MainWindow();
 	QString mystring;
+	QString oldData;
 
 public slots:
 
 	void readNewData(QString data);
 
+	void setToLcdLabel(QString str);
 	void controller(const QString param);
 	void testTool();
+	void showToLCD(QString str);
+	void showLCDLabel2(QString str);
 private slots:
 	void on_actionAbout_ASI210_triggered();
 	void on_actionChange_Background_triggered();
@@ -53,7 +57,6 @@ private slots:
 	void setValueToLCD(QString ba);
 	void on_actionSet_server_adress_triggered();
 	void on_data_send_button_clicked();
-	void setToLcdLabel(QString str);
 
 	QString convertDisplayChar(QString str, bool LCDmode);
 	QString addLCDpoint(int dot, QString str);

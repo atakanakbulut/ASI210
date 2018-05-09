@@ -5,7 +5,7 @@
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
-
+/*
 	startup s;
 	s.show();
 	while(1){
@@ -17,5 +17,8 @@ int main(int argc, char *argv[])
 			return a.exec();
 		}
 	}
+	*/
+	MainWindow m;
+	m.show();
 	return a.exec();
 }

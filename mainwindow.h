@@ -38,19 +38,22 @@ public:
 	~MainWindow();
 	QString mystring;
 	QString oldData;
+	bool communication_established;
+
 
 public slots:
 
 	void readNewData(QString data);
-
 	void setToLcdLabel(QString str);
 	void controller(const QString param);
 	void testTool();
 	void showLCDLabel2(QByteArray str);
 	u32 crc_chk(u8 *data, u8 length);
-	void checksumServer(QByteArray getData);
+	QByteArray checksumServer(QByteArray getData);
 	void checksumClient(QString rawData);
 	QString textConverter(QString str);
+	void setToLCD(QByteArray ba);
+
 private slots:
 	void on_actionAbout_ASI210_triggered();
 	void on_actionChange_Background_triggered();
@@ -68,7 +71,6 @@ private slots:
 	void setValueToLCD(QString ba);
 	void on_actionSet_server_adress_triggered();
 
-
 	QString convertDisplayChar(QString str, bool LCDmode);
 	QString addLCDpoint(int dot, QString str);
 
@@ -81,13 +83,13 @@ private:
 	converter *convert;
 	QTimer *tim;
 
+	const char dotChar = '.';
 	void dataForASI();
 	void dataParser(const QString data);
 
 	int value;
 	int step;
 
-	const char dotChar = '.';
 };
 
 #endif // MAINWINDOW_H

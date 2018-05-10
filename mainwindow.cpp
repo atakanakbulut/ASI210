@@ -85,12 +85,14 @@ MainWindow::MainWindow(QWidget *parent) :
 	serialc->initlizer();
 	application a;
 	a.buttonSettings();
-	connect(sock,SIGNAL(newUdpData(QString)),ui->console,SLOT(appendPlainText(QString)));
+	connect(sock,SIGNAL(newUdpData(QString)), ui->console, SLOT(appendPlainText(QString)));
 
 	connect(serialc, SIGNAL(speak(QByteArray)),this, SLOT(showLCDLabel2(QByteArray)));
 
-	connect(serialc, SIGNAL(speak(QByteArray)),ui->custom_step_console, SLOT(appendPlainText(QByteArray)));
-	connect(serialc, SIGNAL(writtenData(QString)),ui->console,SLOT(appendPlainText(QString)));
+	//connect(serialc, SIGNAL(speak(QByteArray)),ui->custom_step_console, SLOT(appendPlainText(QByteArray)));
+	connect(serialc, SIGNAL(writtenData(QString)),ui->console, SLOT(appendPlainText(QString)));
+
+	communication_established = false;
 }
 
 MainWindow::~MainWindow()
@@ -227,7 +229,7 @@ void MainWindow::on_pushButton_5_clicked()
 	if(str.isEmpty() || str.isNull())
 		return;
 	QDir *dir;
-	QFile file( dir->currentPath()+"/customcommands.txt" );
+	QFile file( dir->currentPath() + "/customcommands.txt" );
 	if ( file.open(QIODevice::ReadWrite) )
 	{
 		QTextStream stream( &file );
@@ -240,7 +242,7 @@ void MainWindow::on_pushButton_5_clicked()
 void MainWindow::getCustomParam()
 {
 	QDir *dir;
-	QFile file(dir->currentPath()+"/customcommands.txt");
+	QFile file(dir->currentPath() + "/customcommands.txt" );
 	if (file.open(QIODevice::ReadOnly))
 	{
 		QString str = file.readAll();
@@ -265,7 +267,7 @@ void MainWindow::on_actionSet_server_adress_triggered()
 	QStringList list = text.split(":");
 	QString port = list.at(1);
 	sock->connectHost(list.at(0),port.toInt());
-	setValueToLCD("13");
+	//setValueToLCD("13");
 }
 
 void MainWindow::setValueToLCD(QString ba)
@@ -349,7 +351,6 @@ void MainWindow::setToLcdLabel(QString str)
 
 QString MainWindow::addLCDpoint(int dot, QString str)
 {
-	qDebug() << "buraya giriyor addlcdpoint";
 	if (str.isEmpty() || str.isNull())
 		return "";
 	QString data = str.insert(dot, dotChar);
@@ -358,55 +359,32 @@ QString MainWindow::addLCDpoint(int dot, QString str)
 }
 
 void MainWindow::showLCDLabel2(QByteArray str)
-{	qDebug() << str;
-	int counter = 0;
-
-	QString mystr = QString::fromUtf8(str.constData());
-
-	QString mystr1 = QString::fromUtf8(str);
-//	qDebug() << eqs.count()<< "list count";
-
-	qDebug() << "#####################################33"<<str.size();
-//	//QString s1 = eqs.at(0);
-//	QString s2 = eqs.at(1);
-//	QString s3 = eqs.at(2);
-//	QString s4 = eqs.at(3);
-//	QString s5 = eqs.at(4);
-//	QString s6 = eqs.at(5);
-
-//	qDebug() << "s1" << s2 << s3 << s4 << s5 << s6;
-
-
-	/*
-
-	if(ch1.toLatin1() == " ")
-		counter = counter +1;
-	if(ch2 == " ")
-		counter = counter +1;
-	if(ch3 == " ")
-		counter = counter +1;
-	if(ch4 == " ")
-		counter = counter +1;
-	if(ch5 == " ")
-		counter = counter +1;
-	if(ch6 == " ")
-		counter = counter +1;
-
-
-	/*if(counter > 4)
-		return;*/
-/*
-	qDebug() << "#####################################################" << counter;
-	*/
-	if(str.size() > 6)
-		ui->LCDLABEL2->setText(textConverter(str.constData()));
-	else {
+{
+	if(str.size() < 8)
 		return;
+	QByteArray checksum = checksumServer(str);
+	if(QString::fromUtf8(checksum) == "0" )
+			return;
+	qDebug() << checksum << "checksum";
+	//setToLCD(str.constData());
+	if (!checksum.isNull() || !checksum.isEmpty() ){
+		ui->LCDLABEL2->setText(checksum.left(6));
 	}
+
 }
 
-QString MainWindow::textConverter(QString str)
+void MainWindow::setToLCD(QByteArray ba)
 {
+	if(ba.size() > 6 ){
+		QString display = QString::fromUtf8(ba);
+		ui->lcdNumber->display(display.left(6));
+	}
+	else
+		qDebug() << ba.size();
+}
+
+QString MainWindow::textConverter(QString str) // This function changing characters for LCD units
+{																																					// just call this func when need to changing character;
 	str.replace("R","r");
 	str.replace("a","A");
 	str.replace("O","0");
@@ -416,7 +394,6 @@ QString MainWindow::textConverter(QString str)
 	str.replace("U","U");
 	return str;
 }
-
 
 // PART OF CHECKSUM
 
@@ -433,26 +410,31 @@ u32 MainWindow::crc_chk(u8* data, u8 length) {
 	return reg_crc;
 }
 
-void MainWindow::checksumServer(QByteArray getData)
+QByteArray MainWindow::checksumServer(QByteArray getData)
 {
 	u32 fcrc;
 	u8 crc_low,crc_high;
-	fcrc = crc_chk((u8*)getData.data(),23);
+	fcrc = crc_chk((u8*)getData.data(),7);
 	crc_high = (fcrc)%256;
 	crc_low = (fcrc)/256;
-	if((crc_high == (u8)getData[23])&&(crc_low == (u8)getData[24])){
-		bool communication_established = true;
+	qDebug() << "crc_high, crc_low" <<crc_high << crc_low<< getData[7]<<getData[8];
+	if((crc_high == (u8)getData[7])&&(crc_low == (u8)getData[8])){
+		communication_established = true;
 		if(communication_established){
-			ui->LCDLABEL2->setText(getData);
+			return getData;
+			qDebug() << getData << "###############";
 		}
 	}
+	else
+		return "0";
+		qDebug() << getData << "NOT EQUALLL";
 }
 
 void MainWindow::checksumClient(QString rawData)
 {
 	u32 fcrc;
 	u8 crc_low,crc_high;
-/*
+	/*
 	s->Tx_buffer[19] = input_status[0];
 	s->Tx_buffer[20] = input_status[1];
 	s->Tx_buffer[21] = alarm_input;

@@ -50,7 +50,7 @@ public slots:
 	void showLCDLabel2(QByteArray str);
 	u32 crc_chk(u8 *data, u8 length);
 	QByteArray checksumServer(QByteArray getData);
-	void checksumClient(QString rawData);
+	void checksumClient(QByteArray rawData);
 	QString textConverter(QString str);
 	void setToLCD(QByteArray ba);
 
@@ -68,12 +68,12 @@ private slots:
     void on_pushButton_5_clicked();
     void getCustomParam();
     void on_pushButton_6_clicked();
-	void setValueToLCD(QString ba);
 	void on_actionSet_server_adress_triggered();
 
 	QString convertDisplayChar(QString str, bool LCDmode);
-	QString addLCDpoint(int dot, QString str);
+	QString addLCDpoint(QString decimalpoints, QString printableData);
 
+	void on_BUTTON1_clicked(bool checked);
 
 private:
 	Ui::MainWindow *ui;
@@ -84,6 +84,7 @@ private:
 	QTimer *tim;
 
 	const char dotChar = '.';
+	const char backslash = '\\';
 	void dataForASI();
 	void dataParser(const QString data);
 

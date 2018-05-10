@@ -92,6 +92,11 @@ void serialcom::handleError(QSerialPort::SerialPortError error)
 	}
 }
 
+void serialcom::waitForByteWritten()
+{
+	serial->waitForBytesWritten(100);
+}
+
 void serialcom::debugging(){
 	//emit sDebug("ASI210");
 	//emit sDebug("0x09");

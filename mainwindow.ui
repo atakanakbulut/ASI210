@@ -22,7 +22,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab_1">
        <attribute name="title">
@@ -55,7 +55,7 @@
            <item row="0" column="0" colspan="5">
             <layout class="QGridLayout" name="gridLayout_2">
              <item row="1" column="3">
-              <widget class="QPushButton" name="pushButton_3">
+              <widget class="QPushButton" name="BUTTON3">
                <property name="text">
                 <string/>
                </property>
@@ -73,14 +73,14 @@
               </layout>
              </item>
              <item row="1" column="2">
-              <widget class="QPushButton" name="pushButton_2">
+              <widget class="QPushButton" name="BUTTON2">
                <property name="text">
                 <string/>
                </property>
               </widget>
              </item>
              <item row="1" column="5">
-              <widget class="QPushButton" name="pushButton_4">
+              <widget class="QPushButton" name="BUTTON4">
                <property name="text">
                 <string/>
                </property>
@@ -100,7 +100,7 @@
               </spacer>
              </item>
              <item row="1" column="1">
-              <widget class="QPushButton" name="pushButton_1">
+              <widget class="QPushButton" name="BUTTON1">
                <property name="text">
                 <string/>
                </property>
@@ -271,7 +271,7 @@
            <enum>QLCDNumber::Flat</enum>
           </property>
           <property name="intValue" stdset="0">
-           <number>111111</number>
+           <number>1111111</number>
           </property>
          </widget>
         </item>

@@ -51,23 +51,23 @@ MainWindow::MainWindow(QWidget *parent) :
 	//USER INTERFACE OPTIONS
 	QPixmap pixmap1(":/stop.png");
 	QIcon ButtonIcon1(pixmap1);
-	ui->pushButton_1->setIcon(ButtonIcon1);
-	ui->pushButton_1->setIconSize(pixmap1.rect().size());
+	ui->BUTTON1->setIcon(ButtonIcon1);
+	ui->BUTTON1->setIconSize(pixmap1.rect().size());
 
 	QPixmap pixmap2(":/back.png");
 	QIcon ButtonIcon2(pixmap2);
-	ui->pushButton_2->setIcon(ButtonIcon2);
-	ui->pushButton_2->setIconSize(pixmap2.rect().size());
+	ui->BUTTON2->setIcon(ButtonIcon2);
+	ui->BUTTON2->setIconSize(pixmap2.rect().size());
 
 	QPixmap pixmap3(":/up.png");
 	QIcon ButtonIcon3(pixmap3);
-	ui->pushButton_3->setIcon(ButtonIcon3);
-	ui->pushButton_3->setIconSize(pixmap3.rect().size());
+	ui->BUTTON3->setIcon(ButtonIcon3);
+	ui->BUTTON3->setIconSize(pixmap3.rect().size());
 
 	QPixmap pixmap4(":/rec.png");
 	QIcon ButtonIcon4(pixmap4);
-	ui->pushButton_4->setIcon(ButtonIcon4);
-	ui->pushButton_4->setIconSize(pixmap4.rect().size());
+	ui->BUTTON4->setIcon(ButtonIcon4);
+	ui->BUTTON4->setIconSize(pixmap4.rect().size());
 
 
 	oldData = "";
@@ -77,22 +77,18 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->LCDLABEL2->setAlignment(Qt::AlignVCenter);
 	ui->LCDLABEL2->setText("------");
 
-	// SIGNALS AND SLOTS
 	QTimer *timer = new QTimer(this);
-	connect(timer, SIGNAL(timeout()),this, SLOT(testTool()));
-	timer->start(7000);
-	//connect(serialc,SIGNAL(sDebug(QString)),ui->console,SLOT(appendPlainText(QString)));
+	timer->start(5000);
 	serialc->initlizer();
 	application a;
 	a.buttonSettings();
-	connect(sock,SIGNAL(newUdpData(QString)), ui->console, SLOT(appendPlainText(QString)));
-
-	connect(serialc, SIGNAL(speak(QByteArray)),this, SLOT(showLCDLabel2(QByteArray)));
-
-	//connect(serialc, SIGNAL(speak(QByteArray)),ui->custom_step_console, SLOT(appendPlainText(QByteArray)));
-	connect(serialc, SIGNAL(writtenData(QString)),ui->console, SLOT(appendPlainText(QString)));
-
 	communication_established = false;
+
+	// SIGNALS AND SLOTS
+	connect(timer, SIGNAL(timeout()),this, SLOT(testTool()));
+	connect(sock,SIGNAL(newUdpData(QString)), ui->console, SLOT(appendPlainText(QString)));
+	connect(serialc, SIGNAL(speak(QByteArray)),this, SLOT(showLCDLabel2(QByteArray)));
+	connect(serialc, SIGNAL(writtenData(QString)),ui->console, SLOT(appendPlainText(QString)));
 }
 
 MainWindow::~MainWindow()
@@ -109,9 +105,9 @@ void MainWindow::on_actionChange_Background_triggered()
 {
 	this->setStyleSheet(whites);
 	ui->groupBox->setStyleSheet(whites);
-	ui->pushButton_1->setStyleSheet(black);
-	ui->pushButton_3->setStyleSheet(black);
-	ui->pushButton_4->setStyleSheet(black);
+	ui->BUTTON1->setStyleSheet(black);
+	ui->BUTTON3->setStyleSheet(black);
+	ui->BUTTON4->setStyleSheet(black);
 	ui->sender->setStyleSheet(black);
 
 }
@@ -119,10 +115,10 @@ void MainWindow::on_actionBlack_triggered()
 {
 	this->setStyleSheet(black);
 	ui->groupBox->setStyleSheet(black);
-	ui->pushButton_1->setStyleSheet(yellows);
-	ui->pushButton_2->setStyleSheet(yellows);
-	ui->pushButton_3->setStyleSheet(yellows);
-	ui->pushButton_4->setStyleSheet(yellows);
+	ui->BUTTON1->setStyleSheet(yellows);
+	ui->BUTTON2->setStyleSheet(yellows);
+	ui->BUTTON3->setStyleSheet(yellows);
+	ui->BUTTON4->setStyleSheet(yellows);
 	ui->sender->setStyleSheet(yellows);
 }
 
@@ -270,11 +266,6 @@ void MainWindow::on_actionSet_server_adress_triggered()
 	//setValueToLCD("13");
 }
 
-void MainWindow::setValueToLCD(QString ba)
-{
-
-}
-
 void MainWindow::dataForASI()
 {
 	QByteArray flash_data[15];
@@ -321,7 +312,7 @@ QString MainWindow::convertDisplayChar(QString str, bool LCDmode )
 
 void MainWindow::setToLcdLabel(QString str)
 {
-	qDebug() << "emmitted signal" <<str;
+	/*	qDebug() << "emmitted signal" <<str;
 	QString parsedData = convertDisplayChar(str,true);
 	if(parsedData == "0")
 		return;
@@ -346,31 +337,57 @@ void MainWindow::setToLcdLabel(QString str)
 			return;
 		}
 
-	}
+	} */
 }
 
-QString MainWindow::addLCDpoint(int dot, QString str)
+QString MainWindow::addLCDpoint(QString decimalpoints, QString printableData)
 {
-	if (str.isEmpty() || str.isNull())
-		return "";
-	QString data = str.insert(dot, dotChar);
-	qDebug() <<"data is" <<data;
-	return data;
+	if (printableData.isEmpty() || printableData.isNull() || decimalpoints.isEmpty() || decimalpoints == "99"){
+		qDebug() << "NULL YADA 99 buraya da gelior";
+		return printableData;
+	}
+	QStringList seperateData = printableData.split(",");
+	if(decimalpoints.count() == 1){
+		QString dotData = printableData.insert(decimalpoints.toInt(), dotChar);
+		return dotData;
+	}
+	else if (decimalpoints.count() == 3) {
+		qDebug() << "buraya giriyor" << seperateData;
+		QString d1 = decimalpoints.at(0);
+		QString d2 = decimalpoints.at(2);
+		qDebug() << " d1 d2 " << d1 << d2;
+		QString data1 = printableData.left(6).insert(d1.toInt(), dotChar);
+		QString data2 = data1.insert(d2.toInt() + 1, dotChar);
+		qDebug() << "buraya da gelior";
+		return data2;
+	}
+	else
+		return "0";
 }
 
 void MainWindow::showLCDLabel2(QByteArray str)
 {
 	if(str.size() < 8)
 		return;
+
 	QByteArray checksum = checksumServer(str);
 	if(QString::fromUtf8(checksum) == "0" )
-			return;
-	qDebug() << checksum << "checksum";
-	//setToLCD(str.constData());
-	if (!checksum.isNull() || !checksum.isEmpty() ){
-		ui->LCDLABEL2->setText(checksum.left(6));
-	}
+		return;
+	QByteArray parsedData = str.mid(6,1);
+	QByteArray newData = convert->toSmallDecimalPoint(parsedData);
 
+	qDebug() << "MY DATAA" << parsedData<< newData << newData.count();
+	qDebug() << "dwdjwauıdwhaodwaj"<<checksum.left(6);
+	QString mystr1 = addLCDpoint(QString::fromUtf8(newData), checksum.left(6));
+	qDebug() << "mystr1<<<<<<<<<<<<<<<<<<<< " << str.size();
+	if (!checksum.isNull() || !checksum.isEmpty() ){
+		if(mystr1 == "0"){
+			ui->LCDLABEL2->setText(checksum.left(6));
+			ui->lcdNumber->display(textConverter(checksum.left(6)));
+		}
+		ui->lcdNumber->display(textConverter(mystr1));
+		ui->LCDLABEL2->setText(mystr1);
+	}
 }
 
 void MainWindow::setToLCD(QByteArray ba)
@@ -392,11 +409,12 @@ QString MainWindow::textConverter(QString str) // This function changing charact
 	str.replace("D","d");
 	str.replace("B","b");
 	str.replace("U","U");
+	str.replace("=", ":");
+	str.replace("Z","2");
 	return str;
 }
 
 // PART OF CHECKSUM
-
 u32 MainWindow::crc_chk(u8* data, u8 length) {
 	int j;
 	u32 reg_crc=0xFFFF;
@@ -421,16 +439,16 @@ QByteArray MainWindow::checksumServer(QByteArray getData)
 	if((crc_high == (u8)getData[7])&&(crc_low == (u8)getData[8])){
 		communication_established = true;
 		if(communication_established){
+			qDebug() << "###########CRC DATA ESTABLİSHED#############";
 			return getData;
-			qDebug() << getData << "###############";
 		}
 	}
 	else
-		return "0";
 		qDebug() << getData << "NOT EQUALLL";
+		return "0";
 }
 
-void MainWindow::checksumClient(QString rawData)
+void MainWindow::checksumClient(QByteArray rawData)
 {
 	u32 fcrc;
 	u8 crc_low,crc_high;
@@ -447,23 +465,13 @@ void MainWindow::checksumClient(QString rawData)
 	*/
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void MainWindow::on_BUTTON1_clicked(bool checked)
+{
+		QString str =	"AS999" ;
+		QByteArray ba = str.toUtf8();
+		serialc->writeReadyData(ba);
+		serialc->waitForByteWritten();
+		delay();
+}
 
 

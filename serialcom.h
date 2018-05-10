@@ -24,6 +24,7 @@ public slots:
 	void readData();
 	bool currentState();
 	void debugging();
+	void waitForByteWritten();
 private slots:
 	void handleError(QSerialPort::SerialPortError error);
 private:

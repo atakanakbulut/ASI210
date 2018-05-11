@@ -92,9 +92,9 @@ void serialcom::handleError(QSerialPort::SerialPortError error)
 	}
 }
 
-void serialcom::waitForByteWritten()
+void serialcom::waitForByteWritten(int msec)
 {
-	serial->waitForBytesWritten(100);
+	serial->waitForBytesWritten(msec);
 }
 
 void serialcom::debugging(){

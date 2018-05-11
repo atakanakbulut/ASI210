@@ -213,12 +213,6 @@ void MainWindow::on_actionExport_log_triggered()
 	}
 }
 
-void MainWindow::on_actionImport_log_triggered()
-{
-
-
-}
-
 void MainWindow::on_pushButton_5_clicked()
 {
 	QString str = ui->getcustomparam->text();
@@ -229,10 +223,9 @@ void MainWindow::on_pushButton_5_clicked()
 	if ( file.open(QIODevice::ReadWrite) )
 	{
 		QTextStream stream( &file );
-		stream << str << endl;
+		stream << endl <<str << endl;
 		file.close();
 	}
-	getCustomParam();
 }
 
 void MainWindow::getCustomParam()
@@ -250,7 +243,7 @@ void MainWindow::getCustomParam()
 void MainWindow::on_pushButton_6_clicked()
 {
 	QByteArray ba = ui->pushcmd->text().toUtf8();
-	serialc->writeReadyData(ba);
+	checksumClient(ba);
 }
 
 void MainWindow::on_actionSet_server_adress_triggered()
@@ -375,11 +368,7 @@ void MainWindow::showLCDLabel2(QByteArray str)
 		return;
 	QByteArray parsedData = str.mid(6,1);
 	QByteArray newData = convert->toSmallDecimalPoint(parsedData);
-
-	qDebug() << "MY DATAA" << parsedData<< newData << newData.count();
-	qDebug() << "dwdjwauıdwhaodwaj"<<checksum.left(6);
 	QString mystr1 = addLCDpoint(QString::fromUtf8(newData), checksum.left(6));
-	qDebug() << "mystr1<<<<<<<<<<<<<<<<<<<< " << str.size();
 	if (!checksum.isNull() || !checksum.isEmpty() ){
 		if(mystr1 == "0"){
 			ui->LCDLABEL2->setText(checksum.left(6));
@@ -405,7 +394,7 @@ QString MainWindow::textConverter(QString str) // This function changing charact
 	str.replace("R","r");
 	str.replace("a","A");
 	str.replace("O","0");
-	str.replace("T","t");
+	str.replace("T"," ʈ");
 	str.replace("D","d");
 	str.replace("B","b");
 	str.replace("U","U");
@@ -448,30 +437,63 @@ QByteArray MainWindow::checksumServer(QByteArray getData)
 		return "0";
 }
 
-void MainWindow::checksumClient(QByteArray rawData)
-{
+void MainWindow::checksumClient(QByteArray rawData) // this function using for
+{																																						// ssh connection
 	u32 fcrc;
 	u8 crc_low,crc_high;
-	/*
-	s->Tx_buffer[19] = input_status[0];
-	s->Tx_buffer[20] = input_status[1];
-	s->Tx_buffer[21] = alarm_input;
-	s->Tx_buffer[22] = home_input;
-	fcrc = crc_chk((u8*)s->Tx_buffer,23);
+	fcrc = crc_chk((u8*)rawData.constData(), 7);
 	crc_high = (fcrc)%256;
 	crc_low = (fcrc)/256;
-	s->Tx_buffer[23] = crc_high;
-	s->Tx_buffer[24] = crc_low;
-	*/
+	rawData[7] = crc_high;
+	rawData[8] = crc_low;
+	ui->custom_step_console->appendPlainText(rawData);
+	qDebug() << "ba valueee " <<rawData;
+	ui->custom_step_console->moveCursor(QTextCursor::Down);
+	serialc->writeReadyData(rawData);
+	serialc->waitForByteWritten(10);
 }
 
 void MainWindow::on_BUTTON1_clicked(bool checked)
 {
-		QString str =	"AS999" ;
-		QByteArray ba = str.toUtf8();
-		serialc->writeReadyData(ba);
-		serialc->waitForByteWritten();
-		delay();
+	QByteArray BTN1(8, 0);
+	BTN1 = buttonSettings();
+	BTN1[6] = 0x31;
+	checksumClient(BTN1);
 }
 
+void MainWindow::on_BUTTON2_clicked(bool checked)
+{
+	QByteArray BTN2(8, 0);
+	BTN2 = buttonSettings();
+	BTN2[6] = 0x32;
+	checksumClient(BTN2);
+}
 
+void MainWindow::on_BUTTON3_clicked(bool checked)
+{
+	QByteArray BTN3(8, 0);
+	BTN3 = buttonSettings();
+	BTN3[6] = 0x33;
+	checksumClient(BTN3);
+
+}
+
+void MainWindow::on_BUTTON4_clicked(bool checked)
+{
+	QByteArray BTN4(8, 0);
+	BTN4 = buttonSettings();
+	BTN4[6] = 0x34;
+	checksumClient(BTN4);
+}
+
+QByteArray MainWindow::buttonSettings()
+{
+	QByteArray ba(8, 0); // array length 4, filled with 0
+	ba[0] = 0x42;
+	ba[1] = 0x55;
+	ba[2] = 0x54;
+	ba[3] = 0x54;
+	ba[4] = 0x4f;
+	ba[5] = 0x4e;
+	return ba;
+}

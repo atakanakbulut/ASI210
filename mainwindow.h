@@ -64,7 +64,6 @@ private slots:
 	void on_actionHow_to_use_ASI210_triggered();
 	void on_actionAbout_Qt_triggered();
     void on_actionExport_log_triggered();
-    void on_actionImport_log_triggered();
     void on_pushButton_5_clicked();
     void getCustomParam();
     void on_pushButton_6_clicked();
@@ -74,7 +73,11 @@ private slots:
 	QString addLCDpoint(QString decimalpoints, QString printableData);
 
 	void on_BUTTON1_clicked(bool checked);
+	void on_BUTTON2_clicked(bool checked);
+	void on_BUTTON3_clicked(bool checked);
+	void on_BUTTON4_clicked(bool checked);
 
+	QByteArray buttonSettings();
 private:
 	Ui::MainWindow *ui;
 

@@ -85,6 +85,7 @@ private:
 	netman *sock;
 	converter *convert;
 	QTimer *tim;
+	QTimer *tim2;
 
 	const char dotChar = '.';
 	const char backslash = '\\';

@@ -71,14 +71,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 	oldData = "";
-	QFont font("Arial", 196, QFont::Bold);
+	QFont font("Ubuntu", 209, QFont::Bold);
 
 	ui->LCDLABEL2->setFont(font);
-	ui->LCDLABEL2->setAlignment(Qt::AlignVCenter);
+	//ui->LCDLABEL2->setAlignment(Qt::AlignLeft);
 	ui->LCDLABEL2->setText("------");
 
 	QTimer *timer = new QTimer(this);
 	timer->start(5000);
+
+	tim2 = new QTimer;
 	serialc->initlizer();
 	application a;
 	a.buttonSettings();
@@ -89,12 +91,13 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(sock,SIGNAL(newUdpData(QString)), ui->console, SLOT(appendPlainText(QString)));
 	connect(serialc, SIGNAL(speak(QByteArray)),this, SLOT(showLCDLabel2(QByteArray)));
 	connect(serialc, SIGNAL(writtenData(QString)),ui->console, SLOT(appendPlainText(QString)));
+	connect(tim2, SIGNAL(timeout()), ui->console, SLOT(clear()));
 
 	font = ui->tabWidget->font();
 	font.setPointSize(21);
 	font.setBold(true);
 	ui->tabWidget->setFont(font);
-	ui->tabWidget->tabBar()->tabTextColor(Qt::blue);
+	tim2->start(15000);
 }
 
 MainWindow::~MainWindow()
@@ -140,8 +143,6 @@ void MainWindow::readNewData(QString data)
 {
 	ui->console->insertPlainText(data);
 	ui->console->moveCursor(QTextCursor::Down);
-	qDebug() << data << "BURAYA GELIYOR";
-
 }
 
 void MainWindow::delay()
@@ -378,9 +379,7 @@ void MainWindow::showLCDLabel2(QByteArray str)
 	if (!checksum.isNull() || !checksum.isEmpty() ){
 		if(mystr1 == "0"){
 			ui->LCDLABEL2->setText(" "+checksum.left(6));
-			ui->lcdNumber->display(textConverter(checksum.left(6)));
 		}
-		ui->lcdNumber->display(textConverter(mystr1));
 		ui->LCDLABEL2->setText(" "+mystr1);
 	}
 }
@@ -389,7 +388,6 @@ void MainWindow::setToLCD(QByteArray ba)
 {
 	if(ba.size() > 6 ){
 		QString display = QString::fromUtf8(ba);
-		ui->lcdNumber->display(display.left(6));
 	}
 	else
 		qDebug() << ba.size();
@@ -434,13 +432,15 @@ QByteArray MainWindow::checksumServer(QByteArray getData)
 	if((crc_high == (u8)getData[7])&&(crc_low == (u8)getData[8])){
 		communication_established = true;
 		if(communication_established){
+			readNewData(getData + "\n" + "######## CRC DATA ESTABLİSHED ########");
 			qDebug() << "###########CRC DATA ESTABLİSHED#############";
 			return getData;
 		}
 	}
 	else
+		readNewData(getData + "\n" + "######## CRC NOT ESTABLİSHED ########");
 		qDebug() << getData << "NOT EQUALLL";
-		return "0";
+	return "0";
 }
 
 void MainWindow::checksumClient(QByteArray rawData) // this function using for
@@ -481,7 +481,6 @@ void MainWindow::on_BUTTON3_clicked(bool checked)
 	BTN3 = buttonSettings();
 	BTN3[6] = 0x33;
 	checksumClient(BTN3);
-
 }
 
 void MainWindow::on_BUTTON4_clicked(bool checked)

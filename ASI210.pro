@@ -13,7 +13,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = ASI210
 TEMPLATE = app
 
-
+target.path=/home/root/atakan
+INSTALLS+=target
 
 SOURCES += main.cpp\
         mainwindow.cpp \

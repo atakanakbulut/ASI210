@@ -3,6 +3,7 @@
 #include "application.h"
 #include "startup.h"
 #include <QDir>
+#include<QProcess>
 
 /* Define to colors */
 #define reds "background-color: red"
@@ -16,7 +17,6 @@
 //debugger
 #define qcout qDebug()
 
-#include<QProcess>
 
 
 
@@ -89,6 +89,12 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(sock,SIGNAL(newUdpData(QString)), ui->console, SLOT(appendPlainText(QString)));
 	connect(serialc, SIGNAL(speak(QByteArray)),this, SLOT(showLCDLabel2(QByteArray)));
 	connect(serialc, SIGNAL(writtenData(QString)),ui->console, SLOT(appendPlainText(QString)));
+
+	font = ui->tabWidget->font();
+	font.setPointSize(21);
+	font.setBold(true);
+	ui->tabWidget->setFont(font);
+	ui->tabWidget->tabBar()->tabTextColor(Qt::blue);
 }
 
 MainWindow::~MainWindow()
@@ -371,11 +377,11 @@ void MainWindow::showLCDLabel2(QByteArray str)
 	QString mystr1 = addLCDpoint(QString::fromUtf8(newData), checksum.left(6));
 	if (!checksum.isNull() || !checksum.isEmpty() ){
 		if(mystr1 == "0"){
-			ui->LCDLABEL2->setText(checksum.left(6));
+			ui->LCDLABEL2->setText(" "+checksum.left(6));
 			ui->lcdNumber->display(textConverter(checksum.left(6)));
 		}
 		ui->lcdNumber->display(textConverter(mystr1));
-		ui->LCDLABEL2->setText(mystr1);
+		ui->LCDLABEL2->setText(" "+mystr1);
 	}
 }
 
@@ -390,7 +396,7 @@ void MainWindow::setToLCD(QByteArray ba)
 }
 
 QString MainWindow::textConverter(QString str) // This function changing characters for LCD units
-{																																					// just call this func when need to changing character;
+{																						// just call this func when need to changing character;
 	str.replace("R","r");
 	str.replace("a","A");
 	str.replace("O","0");

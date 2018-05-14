@@ -6,17 +6,17 @@ serialcom::serialcom(QObject *parent) : QObject(parent)
 {
 	// initlizer
 	serial = new QSerialPort;
+	t = new QTimer;
 	connectionState = false;
 	msg = new QMessageBox;
-	connect(serial, SIGNAL(readyRead()),this, SLOT(readData()));
-
 	connect(serial, SIGNAL(error(QSerialPort::SerialPortError)), this,
 			SLOT(handleError(QSerialPort::SerialPortError)));
+	connect(t, SIGNAL(timeout()), this , SLOT(readData()));
+	t->start(150);
 }
 
 void serialcom::initlizer()
 {
-
 	QString array2 = "PROGRAM INITLIZED";
 	emit newTest(array2);
 }
@@ -26,7 +26,7 @@ bool serialcom::openConnetions()
 	try {
 		serial->setPortName("ttyUSB0");
 		if(serial->open(QIODevice::ReadWrite))
-			if (serial->setBaudRate(QSerialPort::Baud57600)
+			if (serial->setBaudRate(QSerialPort::Baud115200)
 					&& serial->setDataBits(QSerialPort::Data8)
 					&& serial->setParity(QSerialPort::NoParity)
 					&& serial->setStopBits(QSerialPort::OneStop)

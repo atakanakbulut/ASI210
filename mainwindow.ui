@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1109</width>
-    <height>699</height>
+    <width>804</width>
+    <height>547</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,11 +18,38 @@
     <normaloff>icon.png</normaloff>icon.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
+   <property name="acceptDrops">
+    <bool>false</bool>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
+      <property name="tabPosition">
+       <enum>QTabWidget::North</enum>
+      </property>
       <property name="currentIndex">
        <number>0</number>
+      </property>
+      <property name="elideMode">
+       <enum>Qt::ElideMiddle</enum>
+      </property>
+      <property name="documentMode">
+       <bool>true</bool>
+      </property>
+      <property name="tabsClosable">
+       <bool>false</bool>
+      </property>
+      <property name="movable">
+       <bool>false</bool>
+      </property>
+      <property name="tabBarAutoHide">
+       <bool>true</bool>
       </property>
       <widget class="QWidget" name="tab_1">
        <attribute name="title">
@@ -35,23 +62,6 @@
            <string/>
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
-           <item row="1" column="4">
-            <widget class="QPushButton" name="sender">
-             <property name="text">
-              <string>send</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QToolButton" name="connectionstatus">
-             <property name="text">
-              <string>status</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="3">
-            <widget class="QComboBox" name="comboBox"/>
-           </item>
            <item row="0" column="0" colspan="5">
             <layout class="QGridLayout" name="gridLayout_2">
              <item row="1" column="3">
@@ -66,7 +76,16 @@
                <item>
                 <widget class="QLabel" name="LCDLABEL2">
                  <property name="text">
-                  <string/>
+                  <string notr="true"/>
+                 </property>
+                 <property name="scaledContents">
+                  <bool>true</bool>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
@@ -122,6 +141,36 @@
             </layout>
            </item>
            <item row="1" column="0">
+            <widget class="QToolButton" name="writeablestatus">
+             <property name="text">
+              <string>writable</string>
+             </property>
+             <property name="autoRaise">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QToolButton" name="connectionstatus">
+             <property name="text">
+              <string>status</string>
+             </property>
+             <property name="autoRaise">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QComboBox" name="comboBox"/>
+           </item>
+           <item row="1" column="3">
+            <widget class="QPushButton" name="sender">
+             <property name="text">
+              <string>send</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="4">
             <spacer name="horizontalSpacer_3">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -133,13 +182,6 @@
               </size>
              </property>
             </spacer>
-           </item>
-           <item row="1" column="1">
-            <widget class="QToolButton" name="writeablestatus">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
            </item>
           </layout>
          </widget>
@@ -280,55 +322,6 @@
      </widget>
     </item>
    </layout>
-  </widget>
-  <widget class="QStatusBar" name="statusBar"/>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1109</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuSettings">
-    <property name="title">
-     <string>The&amp;mes</string>
-    </property>
-    <addaction name="actionChange_Background"/>
-    <addaction name="actionBlack"/>
-   </widget>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>Fi&amp;le</string>
-    </property>
-    <addaction name="actionExport_log"/>
-    <addaction name="actionImport_log"/>
-   </widget>
-   <widget class="QMenu" name="menuHelp">
-    <property name="title">
-     <string>&amp;Help</string>
-    </property>
-    <addaction name="separator"/>
-    <addaction name="actionHow_to_use_ASI210"/>
-   </widget>
-   <widget class="QMenu" name="menuAbout">
-    <property name="title">
-     <string>Abo&amp;ut</string>
-    </property>
-    <addaction name="actionAbout_ASI210"/>
-   </widget>
-   <widget class="QMenu" name="menuNetwork_Manager">
-    <property name="title">
-     <string>&amp;Network Manager</string>
-    </property>
-    <addaction name="actionSet_server_adress"/>
-   </widget>
-   <addaction name="menuFile"/>
-   <addaction name="menuSettings"/>
-   <addaction name="menuNetwork_Manager"/>
-   <addaction name="menuAbout"/>
-   <addaction name="menuHelp"/>
   </widget>
   <action name="actionAbout_ASI210">
    <property name="text">

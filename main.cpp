@@ -5,20 +5,17 @@
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
-/*
-	startup s;
-	s.show();
-	while(1){
-		s.delay();
-		if (s.loginstatus()) {
-			MainWindow w;
-			s.hide();
-			w.show();
-			return a.exec();
-		}
-	}
-	*/
+
 	MainWindow m;
-	m.show();
+	m.setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+	m.showMaximized();
 	return a.exec();
+}
+
+void QWidget::showMaximized()
+{
+	// ...
+	setWindowState((windowState() & ~(Qt::WindowMinimized | Qt::WindowFullScreen))
+				   | Qt::WindowMaximized);
+	show();
 }

@@ -5,6 +5,8 @@
 
 #include "serialcom.h"
 #include "netman.h"
+#include "converter.h"
+#include "application.h"
 
 #include <QDebug>
 #include <QPixmap>
@@ -15,15 +17,12 @@
 #include <QHBoxLayout>
 #include <QPlainTextEdit>
 #include <QInputDialog>
-#include "converter.h"
 
 
 typedef char s8;
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed int s32;
-
-
 
 namespace Ui {
 class MainWindow;
@@ -44,7 +43,6 @@ public:
 public slots:
 
 	void readNewData(QString data);
-	void setToLcdLabel(QString str);
 	void controller(const QString param);
 	void testTool();
 	void showLCDLabel2(QByteArray str);
@@ -78,12 +76,16 @@ private slots:
 	void on_BUTTON4_clicked(bool checked);
 
 	QByteArray buttonSettings();
+	void getIpInfo();
+	void getMemInfo();
 private:
 	Ui::MainWindow *ui;
 
 	serialcom *serialc;
 	netman *sock;
 	converter *convert;
+	application *app;
+
 	QTimer *tim;
 	QTimer *tim2;
 

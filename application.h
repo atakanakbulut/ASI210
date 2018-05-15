@@ -4,6 +4,9 @@
 #include <QDebug>
 #define qcout qDebug()
 #include <QCoreApplication>
+#include <QProcess>
+#include <QNetworkInterface>
+#include <iostream>
 
 struct MenuButtons
 {
@@ -18,12 +21,13 @@ class application
 public:
 	application();
 	void buttonSettings();
-
 public slots:
-
 	bool controller(QString text);
+	bool rebootSystem();
+	bool shutdownSystem();
+	QString getIpInfo();
+	QString getFreeMemory();
 private:
-
 	void test(MenuButtons *menu);
 private slots:
 

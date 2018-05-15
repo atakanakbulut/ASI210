@@ -82,8 +82,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	tim2 = new QTimer;
 	serialc->initlizer();
-	application a;
-	a.buttonSettings();
+	app = new application;
 	communication_established = false;
 
 	// SIGNALS AND SLOTS
@@ -98,6 +97,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	font.setBold(true);
 	ui->tabWidget->setFont(font);
 	tim2->start(15000);
+
+	QTimer::singleShot(7000, this, SLOT(getIpInfo()));
+	QTimer::singleShot(10000, this, SLOT(getMemInfo()));
 }
 
 MainWindow::~MainWindow()
@@ -307,37 +309,6 @@ QString MainWindow::convertDisplayChar(QString str, bool LCDmode )
 	}
 	else
 		return "0";
-
-}
-
-void MainWindow::setToLcdLabel(QString str)
-{
-	/*	qDebug() << "emmitted signal" <<str;
-	QString parsedData = convertDisplayChar(str,true);
-	if(parsedData == "0")
-		return;
-	else if(parsedData.contains("0x")){
-		QStringList list = str.split("x");
-		QString newValue;
-		convert = new converter;
-		if(!list.at(1).isNull())
-			newValue = convert->toSmallDecimalPoint(list.at(1));
-		qDebug() << "buraya geliyor str.at.isnot null and get int value" << value;
-
-		if(newValue == "0")
-			ui->label->setText("______");
-		else if(newValue == "99")
-			return;
-		else if (newValue.count() == 1 ){
-			qDebug() << "burayada giriyor " << value;
-			return;
-		}
-		else{
-			qDebug() << "my function working";
-			return;
-		}
-
-	} */
 }
 
 QString MainWindow::addLCDpoint(QString decimalpoints, QString printableData)
@@ -501,4 +472,14 @@ QByteArray MainWindow::buttonSettings()
 	ba[4] = 0x4f;
 	ba[5] = 0x4e;
 	return ba;
+}
+
+void MainWindow::getIpInfo()
+{
+	ui->ip_label->setText(app->getIpInfo());
+}
+
+void MainWindow::getMemInfo()
+{
+	ui->ip_label->setText(app->getFreeMemory());
 }

@@ -4,7 +4,6 @@
 #include "startup.h"
 #include <QDir>
 #include<QProcess>
-
 /* Define to colors */
 #define reds "background-color: red"
 #define blues "background-color: blue"
@@ -100,6 +99,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	QTimer::singleShot(7000, this, SLOT(getIpInfo()));
 	QTimer::singleShot(10000, this, SLOT(getMemInfo()));
+
+	ui->progressbar->setStyleSheet(gray);
+
+	plotter = new QwtPlot;
+
+	ui->tab_4->setLayout();
 }
 
 MainWindow::~MainWindow()
@@ -110,6 +115,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_actionAbout_ASI210_triggered()
 {
 	QMessageBox::information(this,"About","\n\nCopyrigt (C) Bilkon < www.bilkon.com.tr >\n\n");
+	plotter->
 }
 
 void MainWindow::on_actionChange_Background_triggered()
@@ -119,7 +125,7 @@ void MainWindow::on_actionChange_Background_triggered()
 	ui->BUTTON1->setStyleSheet(black);
 	ui->BUTTON3->setStyleSheet(black);
 	ui->BUTTON4->setStyleSheet(black);
-	ui->sender->setStyleSheet(black);
+
 
 }
 void MainWindow::on_actionBlack_triggered()
@@ -130,15 +136,6 @@ void MainWindow::on_actionBlack_triggered()
 	ui->BUTTON2->setStyleSheet(yellows);
 	ui->BUTTON3->setStyleSheet(yellows);
 	ui->BUTTON4->setStyleSheet(yellows);
-	ui->sender->setStyleSheet(yellows);
-}
-
-void MainWindow::on_sender_clicked()
-{
-	if(!ui->comboBox->currentText().isNull() && !ui->comboBox->currentText().isEmpty()){
-		QByteArray bayt = ui->comboBox->currentText().toUtf8();
-		serialc->writeReadyData(bayt);
-	}
 }
 
 void MainWindow::readNewData(QString data)
@@ -222,21 +219,6 @@ void MainWindow::on_actionExport_log_triggered()
 	}
 }
 
-void MainWindow::on_pushButton_5_clicked()
-{
-	QString str = ui->getcustomparam->text();
-	if(str.isEmpty() || str.isNull())
-		return;
-	QDir *dir;
-	QFile file( dir->currentPath() + "/customcommands.txt" );
-	if ( file.open(QIODevice::ReadWrite) )
-	{
-		QTextStream stream( &file );
-		stream << endl <<str << endl;
-		file.close();
-	}
-}
-
 void MainWindow::getCustomParam()
 {
 	QDir *dir;
@@ -245,7 +227,6 @@ void MainWindow::getCustomParam()
 	{
 		QString str = file.readAll();
 		QStringList list = str.split("/n");
-		ui->comboBox_custom->addItems(list);
 	}
 }
 
@@ -287,9 +268,6 @@ void MainWindow::dataForASI()
 	flash_data[13] = "0";
 	flash_data[14] = "device.mode";
 
-	for (int i=0;i < 15; i++){
-		ui->comboBox->addItem(flash_data[i]);
-	}
 }
 
 void MainWindow::dataParser(const QString data)
@@ -476,10 +454,21 @@ QByteArray MainWindow::buttonSettings()
 
 void MainWindow::getIpInfo()
 {
-	ui->ip_label->setText(app->getIpInfo());
+	ui->ip_label->setText("IP ADRESS " +app->getIpInfo()+ "     ");
 }
 
 void MainWindow::getMemInfo()
 {
-	ui->ip_label->setText(app->getFreeMemory());
+	ui->mem_label->setText(app->getFreeMemory() + "     ");
+}
+
+void MainWindow::on_flash_button_clicked()
+{
+	ui->progressbar->setValue(75);
+}
+
+void MainWindow::on_pushcmd_clicked()
+{
+	QByteArray ba = ui->lineEdit->text().toUtf8();
+	checksumClient(ba);
 }

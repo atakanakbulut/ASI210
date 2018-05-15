@@ -17,7 +17,7 @@
 #include <QHBoxLayout>
 #include <QPlainTextEdit>
 #include <QInputDialog>
-#include "s"
+#include "qwt_plot.h"
 
 typedef char s8;
 typedef unsigned char u8;
@@ -87,6 +87,7 @@ private:
 	netman *sock;
 	converter *convert;
 	application *app;
+	QwtPlot *plotter;
 
 	QTimer *tim;
 	QTimer *tim2;

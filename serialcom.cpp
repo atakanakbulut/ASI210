@@ -4,7 +4,7 @@
 
 serialcom::serialcom(QObject *parent) : QObject(parent)
 {
-	// initlizer
+	// SERIALPORT INIT
 	serial = new QSerialPort;
 	t = new QTimer;
 	connectionState = false;

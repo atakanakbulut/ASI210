@@ -28,7 +28,7 @@
     <bool>true</bool>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
+    <item row="0" column="1">
      <widget class="QTabWidget" name="tabWidget">
       <property name="tabPosition">
        <enum>QTabWidget::North</enum>
@@ -231,241 +231,417 @@
        <attribute name="title">
         <string> CUSTOM STEP </string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_9">
-        <item row="0" column="0">
-         <layout class="QGridLayout" name="gridLayout_7">
-          <item row="2" column="0">
-           <widget class="QProgressBar" name="progressbar">
-            <property name="value">
-             <number>24</number>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <spacer name="horizontalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="0" column="0">
-           <layout class="QGridLayout" name="gridLayout_6">
-            <item row="6" column="1">
-             <widget class="QPushButton" name="flash_button">
+       <widget class="QGroupBox" name="groupBox_2">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>641</width>
+          <height>171</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>SELECTION</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_7">
+         <item row="0" column="0">
+          <layout class="QGridLayout" name="gridLayout_6">
+           <item row="0" column="0">
+            <widget class="QComboBox" name="baudrate_combobox">
+             <item>
               <property name="text">
-               <string>flash</string>
+               <string>BAUDRATE</string>
               </property>
-             </widget>
-            </item>
-            <item row="0" column="0">
-             <widget class="QComboBox" name="comboBox">
-              <item>
-               <property name="text">
-                <string>data1</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>New Item</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>data2</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>New Item</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>data3</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QComboBox" name="comboBox_3"/>
-            </item>
-            <item row="4" column="0">
-             <widget class="QComboBox" name="comboBox_5">
-              <item>
-               <property name="text">
-                <string>dawdwadawdaw</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>New Item</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>dwa</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>d</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>wa</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>daw</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>dwa</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>d</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>wa</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>daw</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>daw</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>New Item</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>daw</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>New Item</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item row="4" column="1">
-             <widget class="QComboBox" name="comboBox_10"/>
-            </item>
-            <item row="2" column="1">
-             <widget class="QComboBox" name="comboBox_8">
-              <item>
-               <property name="text">
-                <string>New Item</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>dawd</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>d</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>awd</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>aw</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>New Item</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>daw</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>New Item</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QComboBox" name="comboBox_4"/>
-            </item>
-            <item row="1" column="0">
-             <widget class="QComboBox" name="comboBox_2"/>
-            </item>
-            <item row="3" column="1">
-             <widget class="QComboBox" name="comboBox_9"/>
-            </item>
-            <item row="1" column="1">
-             <widget class="QComboBox" name="comboBox_7"/>
-            </item>
-            <item row="0" column="1">
-             <widget class="QComboBox" name="comboBox_6"/>
-            </item>
-            <item row="5" column="1">
-             <spacer name="verticalSpacer">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
+             </item>
+             <item>
+              <property name="text">
+               <string>4800BPS</string>
               </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
+             </item>
+             <item>
+              <property name="text">
+               <string>9600BPS</string>
               </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </item>
-        <item row="0" column="1">
-         <layout class="QGridLayout" name="gridLayout_8">
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="lineEdit"/>
-          </item>
-          <item row="0" column="0" colspan="2">
-           <widget class="QPlainTextEdit" name="custom_step_console"/>
-          </item>
-          <item row="1" column="0">
-           <widget class="QPushButton" name="pushcmd">
-            <property name="text">
-             <string>send</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
+             </item>
+             <item>
+              <property name="text">
+               <string>19200BPS</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>38400BPS</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>57600BPS</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>115200BPS</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QComboBox" name="scgs_combobox">
+             <item>
+              <property name="text">
+               <string>S.C.G.S</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>PA    1</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>PA    2</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>PA    4</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>PA    8</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>PA  16</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>PA  32</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>PA  64</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>PA 128</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QComboBox" name="asi210adress_combobox">
+             <item>
+              <property name="text">
+               <string>ASI210 COMMINICATION ADR</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>ADR= 1</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>ADR= 2</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>ADR= 3</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>ADR= 4</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>ADR= 5</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>ADR= 6</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>ADR= 7</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>ADR= 8</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QComboBox" name="displayval_combobox">
+             <item>
+              <property name="text">
+               <string>DISPLAY VALUE STEP</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>AD=001</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>AD=002</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>AD=005</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>AD=010</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>AD=020</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>AD=050</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_3">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>160</y>
+          <width>631</width>
+          <height>361</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string/>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QLabel" name="pointinginfo">
+             <property name="text">
+              <string>POINTING INFO :</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="dpinfo">
+             <item>
+              <property name="text">
+               <string>dp=  0</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>dp=  1</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>dp=  2</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>dp=  3</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <widget class="QLabel" name="lcap_label">
+             <property name="text">
+              <string>Maximum Mensument Cap : </string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lcap_lineedit"/>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <item>
+            <widget class="QLabel" name="calib_label">
+             <property name="text">
+              <string>Calibration ADC Real Value  :</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="calib_lineedit"/>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
+           <item>
+            <widget class="QLabel" name="relay_label">
+             <property name="text">
+              <string>Relay Set Value   : </string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="relay_lineedit"/>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <item>
+            <widget class="QLabel" name="tara_label">
+             <property name="text">
+              <string>Tara Value            : </string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="tara_elineedit"/>
+           </item>
+          </layout>
+         </item>
+        </layout>
+        <zorder>dpinfo</zorder>
+        <zorder>pointinginfo</zorder>
+        <zorder>dpinfo</zorder>
+        <zorder>lcap_lineedit</zorder>
+        <zorder>lcap_label</zorder>
+        <zorder>calib_label</zorder>
+        <zorder>calib_lineedit</zorder>
+        <zorder>relay_lineedit</zorder>
+        <zorder>relay_label</zorder>
+        <zorder>tara_label</zorder>
+        <zorder>tara_elineedit</zorder>
+        <zorder></zorder>
+        <zorder></zorder>
+       </widget>
+       <widget class="QProgressBar" name="progressbar">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>610</y>
+          <width>1211</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+       </widget>
+       <widget class="QWidget" name="">
+        <property name="geometry">
+         <rect>
+          <x>639</x>
+          <y>10</y>
+          <width>631</width>
+          <height>591</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_8">
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="lineEdit"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QPushButton" name="pushcmd">
+           <property name="text">
+            <string>send</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0" colspan="2">
+          <widget class="QPlainTextEdit" name="custom_step_console"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QPushButton" name="flash_button">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>520</y>
+          <width>201</width>
+          <height>81</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>FLASH DATA</string>
+        </property>
+       </widget>
+       <widget class="QWidget" name="">
+        <property name="geometry">
+         <rect>
+          <x>225</x>
+          <y>526</y>
+          <width>391</width>
+          <height>71</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_9">
+         <item row="0" column="0">
+          <widget class="QRadioButton" name="radioButton">
+           <property name="text">
+            <string>SELECTED</string>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>22</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QRadioButton" name="radioButton_2">
+           <property name="text">
+            <string>DE&amp;FAULT</string>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>22</width>
+             <height>22</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <zorder>custom_step_console</zorder>
+       <zorder>groupBox_2</zorder>
+       <zorder>groupBox_3</zorder>
+       <zorder>radioButton</zorder>
+       <zorder>radioButton_2</zorder>
       </widget>
      </widget>
     </item>

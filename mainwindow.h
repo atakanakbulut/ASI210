@@ -17,7 +17,6 @@
 #include <QHBoxLayout>
 #include <QPlainTextEdit>
 #include <QInputDialog>
-#include "s"
 
 typedef char s8;
 typedef unsigned char u8;

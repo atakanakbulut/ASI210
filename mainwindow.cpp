@@ -102,9 +102,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	ui->progressbar->setStyleSheet(gray);
 
-	plotter = new QwtPlot;
-
-	ui->tab_4->setLayout();
 }
 
 MainWindow::~MainWindow()
@@ -115,7 +112,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_actionAbout_ASI210_triggered()
 {
 	QMessageBox::information(this,"About","\n\nCopyrigt (C) Bilkon < www.bilkon.com.tr >\n\n");
-	plotter->
+
 }
 
 void MainWindow::on_actionChange_Background_triggered()

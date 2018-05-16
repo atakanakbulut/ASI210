@@ -23,6 +23,7 @@ SOURCES += main.cpp\
     startup.cpp \
     application.cpp \
     netman.cpp \
+    keyboard.cpp\
     converter.cpp
 
 HEADERS  += mainwindow.h \
@@ -30,9 +31,11 @@ HEADERS  += mainwindow.h \
     startup.h \
     application.h \
     netman.h \
+    keyboard.h\
     converter.h
 
 FORMS    += mainwindow.ui \
+    keyboard.ui\
     startup.ui
 
 DISTFILES +=

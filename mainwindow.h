@@ -7,6 +7,7 @@
 #include "netman.h"
 #include "converter.h"
 #include "application.h"
+#include "keyboard.h"
 
 #include <QDebug>
 #include <QPixmap>
@@ -51,6 +52,7 @@ public slots:
 	QString textConverter(QString str);
 	void setToLCD(QByteArray ba);
 
+	QString getKeyText();
 private slots:
 	void on_actionAbout_ASI210_triggered();
 	void on_actionChange_Background_triggered();
@@ -75,10 +77,13 @@ private slots:
 	QByteArray buttonSettings();
 	void getIpInfo();
 	void getMemInfo();
-	void on_flash_button_clicked();
-
 	void on_pushcmd_clicked();
 
+	bool eventFilter(QObject *object, QEvent *event);
+	QByteArray dataTrans(QString str);
+	void on_flash_button_clicked();
+
+	void timOut(int sec);
 private:
 	Ui::MainWindow *ui;
 
@@ -86,6 +91,7 @@ private:
 	netman *sock;
 	converter *convert;
 	application *app;
+	Keyboard *keyboard;
 
 	QTimer *tim;
 	QTimer *tim2;

@@ -12,7 +12,7 @@
 #define black "background-color: black"
 #define yellows "background-color: yellow"
 #define whites "background-color: white"
-
+#include <QEvent>
 //debugger
 #define qcout qDebug()
 
@@ -82,6 +82,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	tim2 = new QTimer;
 	serialc->initlizer();
 	app = new application;
+	keyboard = new Keyboard;
+
 	communication_established = false;
 
 	// SIGNALS AND SLOTS
@@ -91,6 +93,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(serialc, SIGNAL(writtenData(QString)),ui->console, SLOT(appendPlainText(QString)));
 	connect(tim2, SIGNAL(timeout()), ui->console, SLOT(clear()));
 
+
+
 	font = ui->tabWidget->font();
 	font.setPointSize(21);
 	font.setBold(true);
@@ -99,9 +103,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	QTimer::singleShot(7000, this, SLOT(getIpInfo()));
 	QTimer::singleShot(10000, this, SLOT(getMemInfo()));
-
 	ui->progressbar->setStyleSheet(gray);
+	ui->lcap_lineedit->installEventFilter(this);
+	ui->tara_elineedit->installEventFilter(this);
+	ui->calib_lineedit->installEventFilter(this);
+	ui->relay_lineedit->installEventFilter(this);
 
+	//* END OF INITLIZER **/
 }
 
 MainWindow::~MainWindow()
@@ -385,7 +393,7 @@ QByteArray MainWindow::checksumServer(QByteArray getData)
 	}
 	else
 		readNewData(getData + "\n" + "######## CRC NOT ESTABLİSHED ########");
-		qDebug() << getData << "NOT EQUALLL";
+	qDebug() << getData << "NOT EQUALLL";
 	return "0";
 }
 
@@ -459,13 +467,130 @@ void MainWindow::getMemInfo()
 	ui->mem_label->setText(app->getFreeMemory() + "     ");
 }
 
-void MainWindow::on_flash_button_clicked()
-{
-	ui->progressbar->setValue(75);
-}
-
 void MainWindow::on_pushcmd_clicked()
 {
 	QByteArray ba = ui->lineEdit->text().toUtf8();
 	checksumClient(ba);
+}
+
+bool MainWindow::eventFilter(QObject* object, QEvent* event)
+{
+	if(object == ui->lcap_lineedit && event->type() == QEvent::MouseButtonPress) {
+		keyboard->exec();
+		ui->lcap_lineedit->setText(keyboard->getKeyboardText());
+		return false; // lets the event continue to the edit
+	}
+	else if(object == ui->calib_lineedit && event->type() == QEvent::MouseButtonPress){
+		keyboard->exec();
+		ui->calib_lineedit->setText(keyboard->getKeyboardText());
+		return false; // lets the event continue to the edit
+	}
+	else if(object == ui->relay_lineedit && event->type() == QEvent::MouseButtonPress)
+	{
+		keyboard->exec();
+		ui->relay_lineedit->setText(keyboard->getKeyboardText());
+		return false; // lets the event continue to the edit
+	}
+	else if(object == ui->tara_elineedit && event->type() == QEvent::MouseButtonPress)
+	{
+		keyboard->exec();
+		ui->tara_elineedit->setText(keyboard->getKeyboardText());
+		return false; // lets the event continue to the edit
+	}
+
+	return false;
+}
+
+QByteArray MainWindow::dataTrans(QString str)
+{
+	if(ui->dpinfo->currentText().toLatin1() == "SRANG=0"){
+		return str.toUtf8();
+	}
+	else if(ui->dpinfo->currentText().toLatin1() == "SRANG=1"){
+		QString mystr2 = str.insert(5, dotChar);
+		return mystr2.toUtf8();
+	}else if(ui->dpinfo->currentText().toLatin1() == "SRANG=2"){
+		QString mystr3 = str.insert(4, dotChar);
+		return mystr3.toUtf8();
+	}
+	else if(ui->dpinfo->currentText().toLatin1() == "SRANG=3"){
+		QString mystr4 = str.insert(3, dotChar);
+		return mystr4.toUtf8();
+	}
+}
+
+QString MainWindow::getKeyText(){
+	Keyboard k;
+	k.exec();
+	QString s = k.getKeyboardText();
+	return s;
+}
+
+void MainWindow::on_flash_button_clicked()
+{
+	if(ui->radioButton_selected->isChecked()){
+		if(ui->baudrate_combobox->currentText().toLatin1() == "BAUDRATE" ||
+			ui->scgs_combobox->currentText().toLatin1() == "S.C.G.S" ||
+			ui->asi210adress_combobox->currentText().toLatin1() == "ASI210 COMMINICATION ADR" ||
+			ui->displayval_combobox->currentText().toLatin1()  == "DISPLAY VALUE STEP"){
+				return;}
+		else if(ui->lcap_lineedit->text().isEmpty() ||
+			ui->calib_lineedit->text().isEmpty() ||
+			ui->relay_lineedit->text().isEmpty() ||
+			ui->tara_elineedit->text().isEmpty() ){
+			ui->status->setText("STATUS :null or non changed character");
+				return;}
+				else if (ui->calib_lineedit->text().count() < 6 ||
+						 ui->lcap_lineedit->text().count() < 6 ||
+						 ui->tara_elineedit->text().count() < 6 ||
+						 ui->relay_lineedit->text().count() < 6) {
+				ui->status->setText("STATUS: missed characiter please input 6 char");
+				return;
+			}
+		// flashing combobox
+		ui->status->setText("ASI210 Flashing..");
+		checksumClient(ui->baudrate_combobox->currentText().toUtf8());
+		timOut(2);
+		ui->progressbar->setValue(12);
+		checksumClient(ui->scgs_combobox->currentText().toUtf8());
+		timOut(1);
+		ui->progressbar->setValue(19);
+		checksumClient(ui->asi210adress_combobox->currentText().toUtf8());
+		timOut(2);
+		ui->status->setText("ASI210 Flashing.....");
+		ui->progressbar->setValue(27);
+		checksumClient(ui->displayval_combobox->currentText().toUtf8());
+		timOut(3);
+		ui->progressbar->setValue(43);
+		ui->status->setText("ASI210 Flashing.........");
+		//flashing lineedits
+		checksumClient(ui->dpinfo->currentText().toUtf8());		timOut(3);
+		ui->progressbar->setValue(56);
+		ui->status->setText("ASI210 Flashing dp .........................");
+		checksumClient(dataTrans(ui->lcap_lineedit->text().toLatin1()));
+		timOut(2);
+		ui->progressbar->setValue(65);
+		checksumClient(dataTrans(ui->calib_lineedit->text().toLatin1()));
+		timOut(3);
+		ui->progressbar->setValue(76);
+		checksumClient(dataTrans(ui->relay_lineedit->text().toLatin1()));
+		timOut(3);
+		ui->progressbar->setValue(87);
+		checksumClient(dataTrans(ui->tara_elineedit->text().toLatin1()));
+		timOut(3);
+		ui->progressbar->setValue(100);
+		ui->status->setText("STATUS: Flashing complate");
+	}
+	else if (ui->radioButton_default->isChecked()){
+		ui->status->setText("STATUS: ASI210 flashing via default parameters");
+	}
+	else
+		ui->status->setText("please check flash mode");
+}
+
+void MainWindow::timOut(int sec)
+{
+	QTime dieTime= QTime::currentTime().addSecs(sec);
+	while (QTime::currentTime() < dieTime)
+		QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }

@@ -294,42 +294,42 @@
              </item>
              <item>
               <property name="text">
-               <string>PA    1</string>
+               <string>CONV016</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>PA    2</string>
+               <string>CONV002</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>PA    4</string>
+               <string>CONV004</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>PA    8</string>
+               <string>CONV008</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>PA  16</string>
+               <string>CONV016</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>PA  32</string>
+               <string>CONV032</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>PA  64</string>
+               <string>CONV064</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>PA 128</string>
+               <string>CONV128</string>
               </property>
              </item>
             </widget>
@@ -343,42 +343,42 @@
              </item>
              <item>
               <property name="text">
-               <string>ADR= 1</string>
+               <string>ADR=001</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>ADR= 2</string>
+               <string>ADR=002</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>ADR= 3</string>
+               <string>ADR=003</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>ADR= 4</string>
+               <string>ADR=004</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>ADR= 5</string>
+               <string>ADR=005</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>ADR= 6</string>
+               <string>ADR=006</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>ADR= 7</string>
+               <string>ADR=007</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>ADR= 8</string>
+               <string>ADR=008</string>
               </property>
              </item>
             </widget>
@@ -392,32 +392,32 @@
              </item>
              <item>
               <property name="text">
-               <string>AD=001</string>
+               <string>DVAL001</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>AD=002</string>
+               <string>DVAL002</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>AD=005</string>
+               <string>DVAL005</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>AD=010</string>
+               <string>DVAL010</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>AD=020</string>
+               <string>DVAL020</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>AD=050</string>
+               <string>DVAL050</string>
               </property>
              </item>
             </widget>
@@ -452,22 +452,22 @@
             <widget class="QComboBox" name="dpinfo">
              <item>
               <property name="text">
-               <string>dp=  0</string>
+               <string>SRANG=0</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>dp=  1</string>
+               <string>SRANG=1</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>dp=  2</string>
+               <string>SRANG=2</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>dp=  3</string>
+               <string>SRANG=3</string>
               </property>
              </item>
             </widget>
@@ -530,6 +530,13 @@
            </item>
           </layout>
          </item>
+         <item>
+          <widget class="QLabel" name="status">
+           <property name="text">
+            <string>STATUS : </string>
+           </property>
+          </widget>
+         </item>
         </layout>
         <zorder>dpinfo</zorder>
         <zorder>pointinginfo</zorder>
@@ -544,6 +551,7 @@
         <zorder>tara_elineedit</zorder>
         <zorder></zorder>
         <zorder></zorder>
+        <zorder>status</zorder>
        </widget>
        <widget class="QProgressBar" name="progressbar">
         <property name="geometry">
@@ -607,9 +615,9 @@
         </property>
         <layout class="QGridLayout" name="gridLayout_9">
          <item row="0" column="0">
-          <widget class="QRadioButton" name="radioButton">
+          <widget class="QRadioButton" name="radioButton_selected">
            <property name="text">
-            <string>SELECTED</string>
+            <string>SE&amp;LECTED</string>
            </property>
            <property name="iconSize">
             <size>
@@ -623,7 +631,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QRadioButton" name="radioButton_2">
+          <widget class="QRadioButton" name="radioButton_default">
            <property name="text">
             <string>DE&amp;FAULT</string>
            </property>
@@ -640,8 +648,8 @@
        <zorder>custom_step_console</zorder>
        <zorder>groupBox_2</zorder>
        <zorder>groupBox_3</zorder>
-       <zorder>radioButton</zorder>
-       <zorder>radioButton_2</zorder>
+       <zorder>radioButton_selected</zorder>
+       <zorder>radioButton_default</zorder>
       </widget>
      </widget>
     </item>

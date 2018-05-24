@@ -3,7 +3,9 @@
 netman::netman(QObject *parent) : QObject(parent)
 {
 	udpsocket = new QUdpSocket;
+	server = new QTcpServer;
 	connect(udpsocket, SIGNAL(readyRead()),this,SLOT(newData()));
+	connect(server, SIGNAL(newConnection()),SLOT(receivedData()));
 }
 
 bool netman::connectHost(QString hostname,int host)
@@ -34,3 +36,17 @@ void netman::newData()
 	qDebug() << "readed data is " << ba;
 	emit newUdpData(ba);
 }
+
+void netman::receivedData()
+{
+		QTcpSocket *socket = server->nextPendingConnection();
+
+		if (!socket)
+			return;
+		qDebug("Client connected");
+		socket->waitForReadyRead(5000);
+		QByteArray data = socket->readAll().constData();
+		emit newTcpData(QString::fromUtf8(data));
+	}
+
+

@@ -724,10 +724,10 @@
           <widget class="QPushButton" name="modbus_flash">
            <property name="geometry">
             <rect>
-             <x>10</x>
-             <y>300</y>
+             <x>0</x>
+             <y>340</y>
              <width>481</width>
-             <height>71</height>
+             <height>61</height>
             </rect>
            </property>
            <property name="text">
@@ -964,10 +964,10 @@
           <widget class="QComboBox" name="modbus_readdata">
            <property name="geometry">
             <rect>
-             <x>20</x>
-             <y>390</y>
+             <x>0</x>
+             <y>410</y>
              <width>251</width>
-             <height>71</height>
+             <height>61</height>
             </rect>
            </property>
            <item>
@@ -1059,10 +1059,10 @@
           <widget class="QPushButton" name="modbusreadbutton">
            <property name="geometry">
             <rect>
-             <x>290</x>
-             <y>390</y>
-             <width>171</width>
-             <height>71</height>
+             <x>260</x>
+             <y>410</y>
+             <width>211</width>
+             <height>61</height>
             </rect>
            </property>
            <property name="font">
@@ -1075,6 +1075,35 @@
            <property name="text">
             <string>READ REGISTER</string>
            </property>
+          </widget>
+          <widget class="QWidget" name="">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>300</y>
+             <width>229</width>
+             <height>26</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <widget class="QRadioButton" name="modbus_selectedbutton">
+              <property name="text">
+               <string>se&amp;lected</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="modbus_default">
+              <property name="text">
+               <string>de&amp;fault data</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </widget>
         </item>

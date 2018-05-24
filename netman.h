@@ -3,7 +3,8 @@
 
 #include <QObject>
 #include <QUdpSocket>
-
+#include <QTcpServer>
+#include <QTcpSocket>
 
 class netman : public QObject
 {
@@ -13,14 +14,16 @@ public:
 
 signals:
 	void newUdpData(QString data);
+	void newTcpData(QString barray);
 public slots:
 
 	bool connectHost(QString hostname, int host);
 private slots:
-	//void readData(QByteArray ba);
 	void newData();
+	void receivedData();
 private:
 	QUdpSocket *udpsocket;
+	QTcpServer *server;
 	void sendInfo(const QByteArray inf);
 };
 

@@ -16,8 +16,53 @@
 //debugger
 #define qcout qDebug()
 
+struct MODE
+{
+	QString READDATA = "0x03"; // Read
+	QString WRITEDATA = "0x06"; // write Data
+};
 
+struct ADRESS
+{
+	QString ADRESS1 = "ADRESS=1";
+	QString ADRESS2 = "ADRESS=2";
+	QString ADRESS3 = "ADRESS=3";
+	QString ADRESS4 = "ADRESS=4";
+	QString ADRESS5 = "ADRESS=5";
+	QString ADRESS6 = "ADRESS=6";
+	QString ADRESS7 = "ADRESS=7";
+	QString ADRESS8 = "ADRESS=8";
+};
 
+struct PA
+{
+	QString PA1 = "PA=1";
+	QString PA2 = "PA=2";
+	QString PA4 = "PA=4";
+	QString PA8 = "PA=8";
+	QString PA16 = "PA=16";
+	QString PA32 = "PA=32";
+	QString PA64 = "PA=64";
+	QString PA128 = "PA=128";
+};
+
+struct AD
+{
+	QString AD1 = "AD=1";
+	QString AD2 = "AD=2";
+	QString AD5 = "AD=5";
+	QString AD10 = "AD=10";
+	QString AD20 = "AD=20";
+	QString AD50 = "AD=50";
+};
+
+struct DP
+{
+	QString DP0 = "DP=0";
+	QString DP1 = "DP=1";
+	QString DP2 = "DP=2";
+	QString DP3 = "DP=3";
+};
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -88,12 +133,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	// SIGNALS AND SLOTS
 	connect(timer, SIGNAL(timeout()),this, SLOT(testTool()));
-	connect(sock,SIGNAL(newUdpData(QString)), ui->console, SLOT(appendPlainText(QString)));
+	connect(sock,SIGNAL(newTcpData(QString)), ui->tcp_status, SLOT(setText(QString)));
 	connect(serialc, SIGNAL(speak(QByteArray)),this, SLOT(showLCDLabel2(QByteArray)));
 	connect(serialc, SIGNAL(writtenData(QString)),ui->console, SLOT(appendPlainText(QString)));
 	connect(tim2, SIGNAL(timeout()), ui->console, SLOT(clear()));
 
-
+	connect(serialc, SIGNAL(writeReadData(QByteArray)),this, SLOT(modbusconsole(QByteArray)));
+	connect(serialc, SIGNAL(speak(QByteArray)),this, SLOT(showLCDLabel2(modbusconsole();)));
 
 	font = ui->tabWidget->font();
 	font.setPointSize(21);
@@ -110,6 +156,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->relay_lineedit->installEventFilter(this);
 
 	//* END OF INITLIZER **/
+
+
 }
 
 MainWindow::~MainWindow()
@@ -448,12 +496,12 @@ void MainWindow::on_BUTTON4_clicked(bool checked)
 QByteArray MainWindow::buttonSettings()
 {
 	QByteArray ba(8, 0); // array length 4, filled with 0
-	ba[0] = 0x42;
-	ba[1] = 0x55;
-	ba[2] = 0x54;
-	ba[3] = 0x54;
-	ba[4] = 0x4f;
-	ba[5] = 0x4e;
+	ba[0] = 0x42; // B
+	ba[1] = 0x54; // T
+	ba[2] = 0x54; // T
+	ba[3] = 0x4e; // N
+	ba[4] = 0x30; // 0
+	ba[5] = 0x30; //0
 	return ba;
 }
 
@@ -530,23 +578,23 @@ void MainWindow::on_flash_button_clicked()
 {
 	if(ui->radioButton_selected->isChecked()){
 		if(ui->baudrate_combobox->currentText().toLatin1() == "BAUDRATE" ||
-			ui->scgs_combobox->currentText().toLatin1() == "S.C.G.S" ||
-			ui->asi210adress_combobox->currentText().toLatin1() == "ASI210 COMMINICATION ADR" ||
-			ui->displayval_combobox->currentText().toLatin1()  == "DISPLAY VALUE STEP"){
-				return;}
+				ui->scgs_combobox->currentText().toLatin1() == "S.C.G.S" ||
+				ui->asi210adress_combobox->currentText().toLatin1() == "ASI210 COMMINICATION ADR" ||
+				ui->displayval_combobox->currentText().toLatin1()  == "DISPLAY VALUE STEP"){
+			return;}
 		else if(ui->lcap_lineedit->text().isEmpty() ||
-			ui->calib_lineedit->text().isEmpty() ||
-			ui->relay_lineedit->text().isEmpty() ||
-			ui->tara_elineedit->text().isEmpty() ){
+				ui->calib_lineedit->text().isEmpty() ||
+				ui->relay_lineedit->text().isEmpty() ||
+				ui->tara_elineedit->text().isEmpty() ){
 			ui->status->setText("STATUS :null or non changed character");
-				return;}
-				else if (ui->calib_lineedit->text().count() < 6 ||
-						 ui->lcap_lineedit->text().count() < 6 ||
-						 ui->tara_elineedit->text().count() < 6 ||
-						 ui->relay_lineedit->text().count() < 6) {
-				ui->status->setText("STATUS: missed characiter please input 6 char");
-				return;
-			}
+			return;}
+		else if (ui->calib_lineedit->text().count() < 6 ||
+				 ui->lcap_lineedit->text().count() < 6 ||
+				 ui->tara_elineedit->text().count() < 6 ||
+				 ui->relay_lineedit->text().count() < 6) {
+			ui->status->setText("STATUS: missed characiter please input 6 char");
+			return;
+		}
 		// flashing combobox
 		ui->status->setText("ASI210 Flashing..");
 		checksumClient(ui->baudrate_combobox->currentText().toUtf8());
@@ -594,3 +642,426 @@ void MainWindow::timOut(int sec)
 	while (QTime::currentTime() < dieTime)
 		QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }
+
+void MainWindow::on_pushButton_clicked()
+{
+	//QByteArray DATA(7,0);/*
+	/*
+	QByteArray DATA;
+	QByteArray str0 = ui->modbus_adress_combo->text().toUtf8();
+	QByteArray str1 = ui->function->text().toUtf8();
+	QByteArray str2 = ui->startmsb->text().toUtf8();
+	QByteArray str3 = ui->startlsb->text().toUtf8();
+	QByteArray str4 = ui->readmsb->text().toUtf8();
+	QByteArray str5 = ui->readlsb->text().toUtf8();
+	DATA[0] = str0.toInt();
+	DATA[1] = str1.toInt();
+	DATA[2] =  str2.toInt();
+	DATA[3] =  str3.toInt();
+	DATA[4] =  str4.toInt();
+	DATA[5] =  str5.toInt();
+	QByteArray bay = ui->function->text().toUtf8();
+	int count = DATA.size();
+	autoCRC(DATA, count);
+*/
+	/*
+	QByteArray bayt;
+	bayt.append(ui->modbus_adress_combo->text().toStdString().c_str());
+	bayt.append(ui->function->text().toStdString().c_str());
+	bayt.append(ui->startmsb->text().toStdString().c_str());
+	bayt.append(ui->startlsb->text().toStdString().c_str());
+	bayt.append(ui->readmsb->text().toStdString().c_str());
+	bayt.append(ui->readlsb->text().toStdString().c_str());
+	autoCRC(bayt, bayt.size());
+	qDebug() << "CONST CHAR " << bayt << bayt.size();
+	qDebug() << "data: " <<bay.toHex() <<"datasize:"<<bay.size();
+	ui->modbus_textedit->appendPlainText(DATA);*/
+}
+
+void MainWindow::autoCRC(QByteArray rawData,int size) // CHECKSUM AUTO
+{
+	const int counter = rawData.size();
+	u32 fcrc;
+	u8 crc_low,crc_high;
+	fcrc = crc_chk((u8*)rawData.constData(), size +1 );
+	crc_high = (fcrc)%256;
+	crc_low = (fcrc)/256;
+	rawData[(size + 1) ] = crc_high;
+	rawData[(size + 2) ] = crc_low;
+	ui->modbus_textedit->appendPlainText(QString::fromUtf8(rawData));
+	qDebug() << "RAWDATAA" << rawData << rawData.size() << counter;
+	serialc->writeReadyData(rawData);
+	serialc->waitForByteWritten(10);
+}
+
+void MainWindow::testfunc2()
+{/*
+	QByteArray ba;
+	ba[0] = 0x03; // address1
+	ba[1] = 0x06; // function yazma // 0x03 okuma
+	ba[2] = 0x00; // mr1
+	ba[3] = 0x07; // mr2
+	ba[4] = 0x00; // mr3
+	ba[5] = 0x40; // mr4
+	autoCRC(ba,5);
+	*/
+
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+	/*
+modbusSettings(); // adress
+readWrite(); // read or write check*/
+	MODBUSDATA[2] = 0x00;
+	MODBUSDATA[4] = 0x00;
+	calculateLCAP();
+}
+
+QByteArray MainWindow::modbusSettings() // GET ADRESS INFO  // dogru
+{
+	ADRESS ADR;
+	QString string = ui->modbusadress->currentText().toLatin1();
+	if(ADR.ADRESS1 == string){
+		qDebug() <<" adress1";
+		MODBUSDATA[0] = 0x01;}
+	else if(ADR.ADRESS2 == string){
+		qDebug() << "adress2";
+		MODBUSDATA[0] = 0x02;}
+	else if(ADR.ADRESS3 == string){
+		qDebug() << "adress3";
+		MODBUSDATA[0] = 0x03;}
+	else if(ADR.ADRESS4 == string){
+		qDebug() << "adress4";
+		MODBUSDATA[0] = 0x04;}
+	else if(ADR.ADRESS5 == string){
+		qDebug() << "adress5";
+		MODBUSDATA[0] = 0x05;}
+	else if(ADR.ADRESS6 == string){
+		qDebug() << "adress6";
+		MODBUSDATA[0] = 0x06;}
+	else if(ADR.ADRESS7 == string){
+		qDebug() << "adress7";
+		MODBUSDATA[0] = 0x07;}
+	else if(ADR.ADRESS8 == string){
+		qDebug() << "adress8";
+		MODBUSDATA[0] = 0x08;}
+	else
+		qDebug() << "adress hatalı veya vb";
+	return MODBUSDATA;
+}
+
+QByteArray MainWindow::readWrite() // dogru;
+{
+	QString str = ui->modbusreadwrite->currentText().toLatin1();
+	if(str == "Write[0x06]"){
+		MODBUSDATA[1] = 0x06;
+		qDebug() << "write modd";
+	}else if(str == "Read[0x03]"){
+		MODBUSDATA[1] = 0x03;
+		qDebug() << " readmode";
+	}else
+		MODBUSDATA[1] = 0x00;
+	return MODBUSDATA;
+}
+
+QByteArray MainWindow::paSettings() // PA SETTINGS THIS ASSIGN
+{
+	PA P;
+	MODBUSDATA[3] = 0x07;
+	QString paData = ui->modbuspa->currentText().toLatin1();
+	if(paData == P.PA1){
+		qDebug() << "01 secildi";
+		MODBUSDATA[5] = 0x01;}
+	else if (paData == P.PA2){
+		qDebug() << "2 secildi";
+		MODBUSDATA[5] = 0x02;}
+	else if (paData == P.PA4){
+		qDebug() << "4 secildi";
+		MODBUSDATA[5] = 0x04;}
+	else if (paData == P.PA8){
+		qDebug() << "8 secildi";
+		MODBUSDATA[5] = 0x08;}
+	else if (paData == P.PA16){
+		qDebug() << "16 secildi";
+		MODBUSDATA[5] = 0x10;}
+	else if (paData == P.PA32){
+		qDebug() << "32 secildi";
+		MODBUSDATA[5] = 0x20;}
+	else if (paData == P.PA64){
+		qDebug() << "64 secildi";
+		MODBUSDATA[5] = 0x40;}
+	else if (paData == P.PA128){
+		qDebug() << "128 secildi";
+		MODBUSDATA[5] = 0x80;}
+
+	qDebug() << MODBUSDATA[5];
+	return MODBUSDATA;
+}
+
+QByteArray MainWindow::ADsettings()
+{
+	AD a;
+	MODBUSDATA[3] = 0x08;
+	QString adData = ui->modbusad->currentText().toLatin1();
+	if(a.AD1 == adData){
+		qDebug() << "ad1 selected";
+		MODBUSDATA[5] = 0x01;}
+	else if(a.AD2 == adData){
+		qDebug() << "ad2 selected";
+		MODBUSDATA[5] = 0x02;}
+	else if(a.AD5 == adData){
+		qDebug() << "ad5 selected";
+		MODBUSDATA[5] = 0x05;}
+	else if(a.AD10 == adData){
+		qDebug() << "ad10 selected";
+		MODBUSDATA[5] = 0xA;}
+	else if(a.AD20 == adData){
+		qDebug() << "ad20 selected";
+		MODBUSDATA[5] = 0x14;}
+	else if(a.AD50 == adData){
+		qDebug() << "ad50 selected";
+		MODBUSDATA[5] = 0x32;}
+	else
+		qDebug() << "AD FUNC not equal";
+	return MODBUSDATA;
+}
+
+QByteArray MainWindow::DPsettings()
+{
+	DP d;
+	MODBUSDATA[3] = 0x06;
+	QString dpData = ui->modbusdp->currentText().toLatin1();
+	if(d.DP0 == dpData){
+		qDebug() << "dp0 selected";
+		MODBUSDATA[5] = 0x00;}
+	else if(d.DP1 == dpData){
+		qDebug() << "dp1 selected";
+		MODBUSDATA[5] = 0x01;}
+	else if(d.DP2 == dpData){
+		qDebug() << "dp2 selected";
+		MODBUSDATA[5] = 0x02;}
+	else if(d.DP3 == dpData){
+		qDebug() << "dp3 selected";
+		MODBUSDATA[5] = 0x03;}
+	else
+		qDebug() << "DP DATA NOT FOUND";
+	return MODBUSDATA;
+}
+
+void MainWindow::calculateLCAP()
+{
+	MODBUSDATA[3] = 0x03;
+	int newValue = ui->modbusLCAP->text().toInt();
+	if(!newValue)
+		return;
+	int YKH = newValue/65536;
+	int YKL = newValue%65536;
+
+	int YKH_MSB=YKH/256;
+	int YKH_LSB=YKH%256;
+	int YKL_MSB=YKL/256;
+	int YKL_LSB=YKL%256;
+
+
+	MODBUSDATA[3] = 0x09;
+	QString value1 = QString().number(YKH_MSB, 16).prepend("0x");
+	QString value2 = QString().number(YKH_LSB, 16).prepend("0x");
+	MODBUSDATA[4] = (uchar)value1.toInt(0, 0);
+	MODBUSDATA[5] = (uchar)value2.toInt(0, 0);
+	autoCRC(MODBUSDATA, 5);
+	MODBUSDATA[3] = 0x0A;
+	QString value3 = QString().number(YKL_MSB, 16).prepend("0x");
+	QString value4 = QString().number(YKL_LSB, 16).prepend("0x");
+	qDebug() <<"THIS LINE"<< value1 << value2 <<value3 << value4;
+	qDebug() <<"THIS LINE"<< (uchar)value1.toInt(0,16) << value2.toInt(0,16) <<value3.toInt(0,16) << (uchar)value4.toInt(0,16);
+	MODBUSDATA[4] = (uchar)value3.toInt(0, 0);
+	MODBUSDATA[5] = (uchar)value4.toInt(0, 0);
+	autoCRC(MODBUSDATA, 5);
+}
+
+void MainWindow::on_modbus_flash_clicked()
+{
+	if(ui->modbus_selectedbutton->isChecked()){
+	MODBUSDATA[2] = 0x00; //2
+	MODBUSDATA[3] = 0x00; //3
+	MODBUSDATA[4] = 0x00; //4
+	ui->modbusstatusbar->setValue(3);
+	qDebug() << "FLASHING START";
+	modbusSettings(); // 0
+	readWrite(); // 1
+	timOut(2);
+	ui->modbuslabel->setText("STATUS: receiving adress");
+	ui->modbus_textedit->appendPlainText("STATUS:  Receiving adress");
+	ui->modbusstatusbar->setValue(5);
+	timOut(2);
+	ui->modbus_textedit->appendPlainText(MODBUSDATA);
+	ui->modbuslabel->setText("STATUS: receiving adress");
+	ui->modbus_textedit->appendPlainText("STATUS:  Receiving READ/WRITE STATUS ");
+	readWrite(); // 1
+	ui->modbus_textedit->appendPlainText(MODBUSDATA);
+	ui->modbusstatusbar->setValue(16);
+	timOut(1);
+	ui->modbus_textedit->appendPlainText("STATUS: Detecting null values ");
+	ui->modbus_textedit->appendPlainText(MODBUSDATA);
+	ui->modbusstatusbar->setValue(26);
+	timOut(1);
+	ui->modbus_textedit->appendPlainText("STATUS: ASI210 write data will flash after 1 sec");
+	ui->modbus_textedit->appendPlainText(MODBUSDATA);
+	ui->modbusstatusbar->setValue(31);
+	timOut(1);
+	paSettings();  //pa
+	timOut(2);
+	ui->modbus_textedit->appendPlainText("STATUS: Flashing data ...");
+	ui->modbus_textedit->appendPlainText(MODBUSDATA);
+	ui->modbus_textedit->appendPlainText("STATUS: PA flasging via modbus");
+	ui->modbusstatusbar->setValue(43);
+	autoCRC(MODBUSDATA, 5);
+	timOut(1);
+	DPsettings(); // dp modules
+	ui->modbus_textedit->appendPlainText("STATUS: Flashing data ........");
+	ui->modbus_textedit->appendPlainText(MODBUSDATA);
+	ui->modbus_textedit->appendPlainText("STATUS: DP flashing via modbus");
+	ui->modbusstatusbar->setValue(69);
+	autoCRC(MODBUSDATA,5);
+	timOut(1);
+	ADsettings();
+	ui->modbus_textedit->appendPlainText("STATUS: Flashing data ........");
+	ui->modbus_textedit->appendPlainText(MODBUSDATA);
+	ui->modbus_textedit->appendPlainText("STATUS:AD flashing via modbus");
+	ui->modbusstatusbar->setValue(76);
+	autoCRC(MODBUSDATA,5);
+	timOut(2);
+	calculateLCAP();
+	qDebug() << MODBUSDATA << "MODBUS DATA ";
+	ui->modbus_textedit->appendPlainText("STATUS:LCAP flashing via modbus");
+	ui->modbusstatusbar->setValue(100);
+	timOut(1);
+	}
+	else if(ui->radioButton_default->isChecked()){                         // DEFALT SETTINGS
+		modbusSettings();
+		MODBUSDATA[1] = 0x06;
+		MODBUSDATA[2] = 0x00;
+		MODBUSDATA[3] = 0x00;
+		MODBUSDATA[4] = 0x00;
+		MODBUSDATA[5] = 0x00;
+
+		MODBUSDATA[3] = 0x06; // DP VALUE
+		MODBUSDATA[5] = 0x0A; //--------->
+		autoCRC(MODBUSDATA, 5);
+		MODBUSDATA[3] = 0x08; // AD VALUE
+		MODBUSDATA[5] = 0x0;//---------->
+		autoCRC(MODBUSDATA, 5);
+		MODBUSDATA[3] = 0x07; // PA VALUE
+		MODBUSDATA[5] =0x00 ;
+
+		ui->modbusLCAP->setText("DEFAULTVALUE");
+		calculateLCAP();
+	}
+	else
+		ui->modbuslabel->setText("PLEASE ");
+}
+
+void MainWindow::on_pushButton_3_clicked() // READ ALL
+{
+	modbusSettings(); //0
+	MODBUSDATA[1] = 0x03;
+	MODBUSDATA[2] = 0x00;
+	MODBUSDATA[3] = 0x01;
+	MODBUSDATA[4] = 0x00;
+	MODBUSDATA[5] = 0x13;
+	autoCRC(MODBUSDATA, 5);
+}
+
+void MainWindow::on_pushButton_4_clicked()
+{
+	if(ui->screenmode->isChecked()){
+		serialc->destroyed();
+		serialc->closeConnection();
+		serialc->openConnetions();
+		serialc->screenmode();
+	}
+	else if(ui->writereadmode->isChecked()){
+		serialc->destroyed();
+		serialc->closeConnection();
+		serialc->openConnetions();
+		serialc->readWriteMode();
+	}
+}
+
+void MainWindow::modbusconsole(QByteArray str){
+
+	if(str.isNull() || str.isEmpty())
+		return;
+	ui->modbus_textedit->appendPlainText( QString("value: %1").arg(QString::fromUtf8(str)));
+}
+
+void MainWindow::on_modbusreadbutton_clicked()
+{
+
+	QString str = ui->modbus_readdata->currentText().toLatin1();
+	modbusSettings(); //0
+	readWrite(); // 1
+	MODBUSDATA[2] = 0x00;
+	MODBUSDATA[3] = 0x00;
+	MODBUSDATA[4] = 0x00;
+	MODBUSDATA[5] = 0x00;
+
+	if(str == "POINTER REG"){
+		qDebug() << "read pointer";
+		MODBUSDATA[3] = 0x03;
+		MODBUSDATA[5] = 0x01;
+	}else if( str == "RAW SIGNAL(H)" ){
+		qDebug() << "rawsignalh";
+		MODBUSDATA[3] = 0x01;
+		MODBUSDATA[5] = 0x01;
+	}else if( str == "RAW SIGNAL(L)" ){
+		MODBUSDATA[3] = 0x02;
+		MODBUSDATA[5] = 0x01;
+	}else if( str == "POINTER VALUE (H)" ){
+		MODBUSDATA[3] = 0x04;
+		MODBUSDATA[5] = 0x01;
+	}else if( str == "POINTER VALUE (L)" ){
+		MODBUSDATA[3] = 0x05;
+		MODBUSDATA[5] = 0x01;
+	}else if( str == "DECIMAL POINT(DP)" ){
+		MODBUSDATA[3] = 0x06;
+		MODBUSDATA[5] = 0x01;
+	}else if( str == "GAIN REG (PA)" ){
+		MODBUSDATA[3] = 0x07;
+		MODBUSDATA[5] = 0x01;
+	}else if( str == "STEP REG (AD)" ){
+		MODBUSDATA[3] = 0x08;
+		MODBUSDATA[5] = 0x01;
+	}else if( str == "LCAP (H)" ){ // R
+		MODBUSDATA[3] = 0x09;
+		MODBUSDATA[5] = 0x02;
+	}else if( str == "LCAP (L)" ){
+		MODBUSDATA[3] = 0x0A;
+		MODBUSDATA[5] = 0x01;
+	}else if( str == "CAL P (H)" ){
+		MODBUSDATA[3] = 0x0B;
+		MODBUSDATA[5] = 0x01;
+	}else if( str == "CAL P (L)" ){
+		MODBUSDATA[3] = 0x09;
+		MODBUSDATA[5] = 0x01;
+	}else if( str == "TARA (H)" ){
+		MODBUSDATA[3] = 0x0F;
+		MODBUSDATA[5] = 0x01;
+	}else if( str == "TARA (L)" ){
+		MODBUSDATA[3] = 0x10;
+		MODBUSDATA[5] = 0x01;
+	}else if( str == "BAUDR (H)" ){
+		MODBUSDATA[3] = 0x11;
+		MODBUSDATA[5] = 0x01;
+	}else if( str == "BAUDR (L)" ){
+		MODBUSDATA[3] = 0x12;
+		MODBUSDATA[5] = 0x01;
+	}else if( str == "BAUDADR" ){
+		MODBUSDATA[3] = 0x13;
+		MODBUSDATA[5] = 0x01;
+		qDebug() << "baudadre";
+	}
+autoCRC(MODBUSDATA, 5);
+}
+

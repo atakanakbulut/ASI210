@@ -20,17 +20,23 @@ signals:
 	void newTest(QString str);
 	void sDebug(QString debugString);
 	void writtenData(QString str);
+	void writeReadData(QByteArray ba);
 public slots:
 	void readData();
 	bool currentState();
 	void debugging();
 	void waitForByteWritten(int msec);
+
+	void readWriteMode();
+	void screenmode();
+	void closeConnection();
+	void destroy();
 private slots:
 	void handleError(QSerialPort::SerialPortError error);
+	void ReadyreadDATA();
 private:
 	QSerialPort *serial;
 	QMessageBox *msg;
-	void closeConnection();
 	bool connectionStatus();
 	QTimer *t;
 };

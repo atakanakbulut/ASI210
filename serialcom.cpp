@@ -11,14 +11,24 @@ serialcom::serialcom(QObject *parent) : QObject(parent)
 	msg = new QMessageBox;
 	connect(serial, SIGNAL(error(QSerialPort::SerialPortError)), this,
 			SLOT(handleError(QSerialPort::SerialPortError)));
-	connect(t, SIGNAL(timeout()), this , SLOT(readData()));
-	t->start(150);
 }
 
 void serialcom::initlizer()
 {
 	QString array2 = "PROGRAM INITLIZED";
 	emit newTest(array2);
+}
+
+void serialcom::readWriteMode()
+{
+	connect(t, SIGNAL(timeout()), this , SLOT(ReadyreadDATA()));
+	t->start(200);
+}
+
+void serialcom::screenmode()
+{
+	connect(t, SIGNAL(timeout()), this , SLOT(readData()));
+	t->start(150);
 }
 
 bool serialcom::openConnetions()
@@ -46,6 +56,11 @@ void serialcom::closeConnection()
 	serial->close();
 }
 
+void serialcom::destroy()
+{
+
+}
+
 bool serialcom::connectionStatus()
 {
 	if(connectionState)
@@ -57,8 +72,15 @@ bool serialcom::connectionStatus()
 void serialcom::readData()
 {
 	QByteArray ba = serial->readAll();
-	qDebug() << ba << "gelendata";
+	qDebug() << ba << "gelendata timermode";
 	emit speak(ba);
+}
+
+void serialcom::ReadyreadDATA()
+{
+	QByteArray ba = serial->readAll();
+	qDebug() << ba << "gelendata readyreadmode";
+	emit writeReadData(ba);
 }
 
 void serialcom::writeReadyData(QByteArray ba)
@@ -101,4 +123,3 @@ void serialcom::debugging(){
 	//emit sDebug("ASI210");
 	//emit sDebug("0x09");
 }
-

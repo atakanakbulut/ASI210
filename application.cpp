@@ -31,7 +31,7 @@ QString application::getFreeMemory()
 	p.waitForFinished();
 	QString memory = p.readAllStandardOutput();
 	QString system_info;
-	system_info.append(QString("%1 of TOTAL:3").arg(memory.toLong() / 1024).arg(1024 - (memory.toLong() / 1024)).arg(1024));
+	system_info.append(QString("%1 of %3").arg(memory.toLong() / 1024).arg(1024 - (memory.toLong() / 1024)).arg(1024));
 	p.close();
 	return system_info;
 }

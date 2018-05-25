@@ -64,7 +64,6 @@ private slots:
 	void on_actionAbout_Qt_triggered();
     void on_actionExport_log_triggered();
     void getCustomParam();
-    void on_pushButton_6_clicked();
 	void on_actionSet_server_adress_triggered();
 
 	QString convertDisplayChar(QString str, bool LCDmode);
@@ -85,11 +84,8 @@ private slots:
 	void on_flash_button_clicked();
 
 	void timOut(int sec);
-	void on_pushButton_clicked();
 
 	void autoCRC(QByteArray rawData, int size);
-	void on_pushButton_2_clicked();
-
 
 	QByteArray modbusSettings();
 	QByteArray paSettings();

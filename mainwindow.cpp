@@ -119,7 +119,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	ui->LCDLABEL2->setFont(font);
 	//ui->LCDLABEL2->setAlignment(Qt::AlignLeft);
-	ui->LCDLABEL2->setText("------");
+	ui->LCDLABEL2->setText("");
 
 	QTimer *timer = new QTimer(this);
 	timer->start(5000);
@@ -139,7 +139,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(tim2, SIGNAL(timeout()), ui->console, SLOT(clear()));
 
 	connect(serialc, SIGNAL(writeReadData(QByteArray)),this, SLOT(modbusconsole(QByteArray)));
-	connect(serialc, SIGNAL(speak(QByteArray)),this, SLOT(showLCDLabel2(modbusconsole();)));
+	connect(serialc, SIGNAL(speak(QByteArray)),this, SLOT(modbusconsole(QByteArray)));
 
 	font = ui->tabWidget->font();
 	font.setPointSize(21);
@@ -156,8 +156,6 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->relay_lineedit->installEventFilter(this);
 
 	//* END OF INITLIZER **/
-
-
 }
 
 MainWindow::~MainWindow()
@@ -281,12 +279,6 @@ void MainWindow::getCustomParam()
 		QString str = file.readAll();
 		QStringList list = str.split("/n");
 	}
-}
-
-void MainWindow::on_pushButton_6_clicked()
-{
-	QByteArray ba = ui->pushcmd->text().toUtf8();
-	checksumClient(ba);
 }
 
 void MainWindow::on_actionSet_server_adress_triggered()
@@ -643,41 +635,6 @@ void MainWindow::timOut(int sec)
 		QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }
 
-void MainWindow::on_pushButton_clicked()
-{
-	//QByteArray DATA(7,0);/*
-	/*
-	QByteArray DATA;
-	QByteArray str0 = ui->modbus_adress_combo->text().toUtf8();
-	QByteArray str1 = ui->function->text().toUtf8();
-	QByteArray str2 = ui->startmsb->text().toUtf8();
-	QByteArray str3 = ui->startlsb->text().toUtf8();
-	QByteArray str4 = ui->readmsb->text().toUtf8();
-	QByteArray str5 = ui->readlsb->text().toUtf8();
-	DATA[0] = str0.toInt();
-	DATA[1] = str1.toInt();
-	DATA[2] =  str2.toInt();
-	DATA[3] =  str3.toInt();
-	DATA[4] =  str4.toInt();
-	DATA[5] =  str5.toInt();
-	QByteArray bay = ui->function->text().toUtf8();
-	int count = DATA.size();
-	autoCRC(DATA, count);
-*/
-	/*
-	QByteArray bayt;
-	bayt.append(ui->modbus_adress_combo->text().toStdString().c_str());
-	bayt.append(ui->function->text().toStdString().c_str());
-	bayt.append(ui->startmsb->text().toStdString().c_str());
-	bayt.append(ui->startlsb->text().toStdString().c_str());
-	bayt.append(ui->readmsb->text().toStdString().c_str());
-	bayt.append(ui->readlsb->text().toStdString().c_str());
-	autoCRC(bayt, bayt.size());
-	qDebug() << "CONST CHAR " << bayt << bayt.size();
-	qDebug() << "data: " <<bay.toHex() <<"datasize:"<<bay.size();
-	ui->modbus_textedit->appendPlainText(DATA);*/
-}
-
 void MainWindow::autoCRC(QByteArray rawData,int size) // CHECKSUM AUTO
 {
 	const int counter = rawData.size();
@@ -706,16 +663,6 @@ void MainWindow::testfunc2()
 	autoCRC(ba,5);
 	*/
 
-}
-
-void MainWindow::on_pushButton_2_clicked()
-{
-	/*
-modbusSettings(); // adress
-readWrite(); // read or write check*/
-	MODBUSDATA[2] = 0x00;
-	MODBUSDATA[4] = 0x00;
-	calculateLCAP();
 }
 
 QByteArray MainWindow::modbusSettings() // GET ADRESS INFO  // dogru
@@ -938,28 +885,45 @@ void MainWindow::on_modbus_flash_clicked()
 	ui->modbusstatusbar->setValue(100);
 	timOut(1);
 	}
-	else if(ui->radioButton_default->isChecked()){                         // DEFALT SETTINGS
+	else if(ui->modbus_default_flash->isChecked()){                         // DEFALT SETTINGS
 		modbusSettings();
+		ui->modbusstatusbar->setValue(0);
 		MODBUSDATA[1] = 0x06;
 		MODBUSDATA[2] = 0x00;
 		MODBUSDATA[3] = 0x00;
 		MODBUSDATA[4] = 0x00;
 		MODBUSDATA[5] = 0x00;
-
+		ui->modbus_textedit->appendPlainText("STATUS: Flashing default .....");
+		ui->modbus_textedit->appendPlainText(MODBUSDATA);
+		timOut(2);
+		ui->modbus_textedit->appendPlainText("STATUS:Flashing default ........");
+		ui->modbusstatusbar->setValue(17);
 		MODBUSDATA[3] = 0x06; // DP VALUE
 		MODBUSDATA[5] = 0x0A; //--------->
 		autoCRC(MODBUSDATA, 5);
+		ui->modbus_textedit->appendPlainText(MODBUSDATA);
+		timOut(2);
+		ui->modbus_textedit->appendPlainText("STATUS:Flashing default ..............");
+		ui->modbusstatusbar->setValue(35);
 		MODBUSDATA[3] = 0x08; // AD VALUE
 		MODBUSDATA[5] = 0x0;//---------->
 		autoCRC(MODBUSDATA, 5);
+		ui->modbus_textedit->appendPlainText(MODBUSDATA);
+		timOut(2);
+		ui->modbus_textedit->appendPlainText("STATUS:Flashing default ................");
+		ui->modbusstatusbar->setValue(55);
 		MODBUSDATA[3] = 0x07; // PA VALUE
 		MODBUSDATA[5] =0x00 ;
 
 		ui->modbusLCAP->setText("DEFAULTVALUE");
 		calculateLCAP();
+		ui->modbus_textedit->appendPlainText(MODBUSDATA);
+		timOut(2);
+		ui->modbus_textedit->appendPlainText("STATUS: COMPLATE!!");
+		ui->modbusstatusbar->setValue(100);
 	}
 	else
-		ui->modbuslabel->setText("PLEASE ");
+		ui->modbuslabel->setText("PLEASE CHECK FLASH MODE");
 }
 
 void MainWindow::on_pushButton_3_clicked() // READ ALL

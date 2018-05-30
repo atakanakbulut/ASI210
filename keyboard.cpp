@@ -172,3 +172,4 @@ void Keyboard::on_pushButton_clear_clicked()
 	ui->lineEdit->clear();
 }
 
+

@@ -53,7 +53,6 @@ public slots:
 	void setToLCD(QByteArray ba);
 
 	QString getKeyText();
-	void testfunc2();
 private slots:
 	void on_actionAbout_ASI210_triggered();
 	void on_actionChange_Background_triggered();
@@ -93,17 +92,19 @@ private slots:
 	QByteArray ADsettings();
 	QByteArray DPsettings();
 	void calculateLCAP();
+
 	void on_modbus_flash_clicked();
 
 	void on_pushButton_3_clicked();
 
 	void on_pushButton_4_clicked();
 
-
-
 	void on_modbusreadbutton_clicked();
 
 	void modbusconsole(QByteArray str);
+	void tcpDebug(QString data);
+	void startTcpClient();
+	void closeSocket();
 private:
 	Ui::MainWindow *ui;
 
@@ -124,7 +125,6 @@ private:
 
 	int value;
 	int step;
-
 };
 
 #endif // MAINWINDOW_H

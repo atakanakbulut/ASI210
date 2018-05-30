@@ -16,14 +16,21 @@ signals:
 	void newUdpData(QString data);
 	void newTcpData(QString barray);
 public slots:
+	bool currentStatus();
 
-	bool connectHost(QString hostname, int host);
+	bool connectHost(QString hostname, int port);
+	void dataSender(QByteArray barray, QString host, int port);
+	bool closeConnection();
+	void writeTcpData(QByteArray readyData);
+	bool connectTCPHost(QString hostname, int port);
 private slots:
 	void newData();
 	void receivedData();
+	void tcpData();
 private:
 	QUdpSocket *udpsocket;
-	QTcpServer *server;
+	QTcpServer *svr;
+	QTcpSocket *stcp;
 	void sendInfo(const QByteArray inf);
 };
 

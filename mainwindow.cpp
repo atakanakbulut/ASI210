@@ -133,14 +133,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	// SIGNALS AND SLOTS
 	connect(timer, SIGNAL(timeout()),this, SLOT(testTool()));
-	connect(sock,SIGNAL(newTcpData(QString)), ui->tcp_status, SLOT(setText(QString)));
+	connect(sock,SIGNAL(newTcpData(QString)), this, SLOT(tcpDebug(QString)));
 	connect(serialc, SIGNAL(speak(QByteArray)),this, SLOT(showLCDLabel2(QByteArray)));
 	connect(serialc, SIGNAL(writtenData(QString)),ui->console, SLOT(appendPlainText(QString)));
 	connect(tim2, SIGNAL(timeout()), ui->console, SLOT(clear()));
 
-	connect(serialc, SIGNAL(writeReadData(QByteArray)),this, SLOT(modbusconsole(QByteArray)));
-	connect(serialc, SIGNAL(speak(QByteArray)),this, SLOT(modbusconsole(QByteArray)));
-
+	connect(serialc, SIGNAL(writeReadData(QByteArray)), this, SLOT(modbusconsole(QByteArray)));
+	connect(serialc, SIGNAL(speak(QByteArray)), this, SLOT(modbusconsole(QByteArray)));
+	connect(ui->tcp_checkbox, SIGNAL(clicked(bool)), this, SLOT(startTcpClient()));
 	font = ui->tabWidget->font();
 	font.setPointSize(21);
 	font.setBold(true);
@@ -156,6 +156,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->relay_lineedit->installEventFilter(this);
 
 	//* END OF INITLIZER **/
+
 }
 
 MainWindow::~MainWindow()
@@ -291,7 +292,7 @@ void MainWindow::on_actionSet_server_adress_triggered()
 	QStringList list = text.split(":");
 	QString port = list.at(1);
 	sock->connectHost(list.at(0),port.toInt());
-	//setValueToLCD("13");
+
 }
 
 void MainWindow::dataForASI()
@@ -449,8 +450,11 @@ void MainWindow::checksumClient(QByteArray rawData) // this function using for
 	ui->custom_step_console->appendPlainText(rawData);
 	qDebug() << "ba valueee " <<rawData;
 	ui->custom_step_console->moveCursor(QTextCursor::Down);
-	serialc->writeReadyData(rawData);
-	serialc->waitForByteWritten(10);
+	if(ui->serial_checkbox->isChecked()){
+		serialc->writeReadyData(rawData);
+	}
+	if(ui->tcp_checkbox->isChecked())
+		sock->writeTcpData(rawData);
 }
 
 void MainWindow::on_BUTTON1_clicked(bool checked)
@@ -509,6 +513,7 @@ void MainWindow::getMemInfo()
 
 void MainWindow::on_pushcmd_clicked()
 {
+
 	QByteArray ba = ui->lineEdit->text().toUtf8();
 	checksumClient(ba);
 }
@@ -647,22 +652,12 @@ void MainWindow::autoCRC(QByteArray rawData,int size) // CHECKSUM AUTO
 	rawData[(size + 2) ] = crc_low;
 	ui->modbus_textedit->appendPlainText(QString::fromUtf8(rawData));
 	qDebug() << "RAWDATAA" << rawData << rawData.size() << counter;
-	serialc->writeReadyData(rawData);
+	if(ui->serial_checkbox->isChecked()){
+		serialc->writeReadyData(rawData);
 	serialc->waitForByteWritten(10);
-}
-
-void MainWindow::testfunc2()
-{/*
-	QByteArray ba;
-	ba[0] = 0x03; // address1
-	ba[1] = 0x06; // function yazma // 0x03 okuma
-	ba[2] = 0x00; // mr1
-	ba[3] = 0x07; // mr2
-	ba[4] = 0x00; // mr3
-	ba[5] = 0x40; // mr4
-	autoCRC(ba,5);
-	*/
-
+	}
+	if(ui->tcp_checkbox->isChecked())
+		sock->writeTcpData(rawData);
 }
 
 QByteArray MainWindow::modbusSettings() // GET ADRESS INFO  // dogru
@@ -1027,5 +1022,21 @@ void MainWindow::on_modbusreadbutton_clicked()
 		qDebug() << "baudadre";
 	}
 autoCRC(MODBUSDATA, 5);
+}
+
+void MainWindow::tcpDebug(QString data)
+{
+	ui->console->appendPlainText(data);
+	ui->tcp_status->setText("CONNECTED");
+}
+
+void MainWindow::startTcpClient()
+{
+	sock->connectTCPHost(ui->tcp_ip_info->text().toLatin1(), 1234);
+}
+
+void MainWindow::closeSocket()
+{
+	sock->closeConnection();
 }
 

@@ -3,16 +3,42 @@
 netman::netman(QObject *parent) : QObject(parent)
 {
 	udpsocket = new QUdpSocket;
-	server = new QTcpServer;
+	svr = new QTcpServer(this);
+	stcp = new QTcpSocket(this);
+
 	connect(udpsocket, SIGNAL(readyRead()),this,SLOT(newData()));
-	connect(server, SIGNAL(newConnection()),SLOT(receivedData()));
+	connect(svr, SIGNAL(newConnection()),SLOT(receivedData()));
+
+	if (!svr->listen(QHostAddress::Any, 1234)){
+	qDebug() << "server started";
+	}
+	else{
+		qDebug() <<"do something in case of error";
+	}
+	qDebug() << "initlize edildi";
+	}
+
+bool netman::connectTCPHost(QString hostname, int port)
+{
+	if(stcp->isOpen())
+		stcp->close();
+	stcp->connectToHost(QHostAddress(hostname), port);
+	if(!stcp->waitForConnected(5000)){
+		return false;
+		qDebug() << "not connected";
+	}
+	else{
+		qDebug() << "connected";
+		sendInfo("i am connected\n");
+		return true;
+	}
 }
 
-bool netman::connectHost(QString hostname,int host)
+bool netman::connectHost(QString hostname, int port)
 {
 	if(udpsocket->isOpen())
 		udpsocket->close();
-	udpsocket->connectToHost(QHostAddress(hostname), host);
+	udpsocket->connectToHost(QHostAddress(hostname), port);
 	if(!udpsocket->waitForConnected(5000)){
 		return false;
 		qDebug() << "not connected";
@@ -27,7 +53,7 @@ bool netman::connectHost(QString hostname,int host)
 void netman::sendInfo(QByteArray inf)
 {
 	qDebug() << "connected and writing this" << inf;
-	udpsocket->write("i am connected");
+	udpsocket->write("i am connected to network");
 }
 
 void netman::newData()
@@ -37,16 +63,55 @@ void netman::newData()
 	emit newUdpData(ba);
 }
 
+void netman::tcpData()
+{
+	QByteArray ba = stcp->readAll();
+	if(ba == "exit")
+		stcp->close();
+	qDebug() << ba;
+	emit newTcpData(QString::fromUtf8(ba));
+}
+
 void netman::receivedData()
 {
-		QTcpSocket *socket = server->nextPendingConnection();
-
-		if (!socket)
-			return;
-		qDebug("Client connected");
-		socket->waitForReadyRead(5000);
-		QByteArray data = socket->readAll().constData();
-		emit newTcpData(QString::fromUtf8(data));
+	stcp = svr->nextPendingConnection();
+	if (!stcp)
+		return;
+	qDebug("Client connected");
+	stcp->write("welcome here\n");
+	//stcp->waitForReadyRead(15000);
+	connect(stcp, SIGNAL(readyRead()),this, SLOT(tcpData()));
 	}
+
+
+bool netman::currentStatus()
+{
+	if(udpsocket->isOpen())
+		return true;
+	else false;
+}
+
+bool netman::closeConnection()
+{
+	if(udpsocket->isOpen())
+		udpsocket->close();
+	return true;
+}
+
+void netman::writeTcpData(QByteArray readyData)
+{
+	stcp->write(readyData);
+	stcp->waitForBytesWritten(3000);
+}
+
+void netman::dataSender(QByteArray barray, QString host, int port)
+{
+	if(!udpsocket->isOpen())
+	connectHost(host, port);
+	if(barray.isEmpty() || barray.isNull())
+		return;
+	udpsocket->write(barray+"\n");
+}
+
 
 

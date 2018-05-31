@@ -637,57 +637,55 @@
          </item>
         </layout>
        </widget>
-       <widget class="QPushButton" name="flash_button">
+       <widget class="QWidget" name="">
         <property name="geometry">
          <rect>
           <x>10</x>
           <y>520</y>
-          <width>201</width>
-          <height>81</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>FLASH DATA</string>
-        </property>
-       </widget>
-       <widget class="QWidget" name="layoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>225</x>
-          <y>526</y>
-          <width>391</width>
+          <width>611</width>
           <height>71</height>
          </rect>
         </property>
-        <layout class="QGridLayout" name="gridLayout_9">
-         <item row="0" column="0">
-          <widget class="QRadioButton" name="radioButton_selected">
+        <layout class="QHBoxLayout" name="horizontalLayout_9">
+         <item>
+          <widget class="QPushButton" name="flash_button">
            <property name="text">
-            <string>SE&amp;LECTED</string>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>22</width>
-             <height>22</height>
-            </size>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
+            <string>FLASH DATA</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QRadioButton" name="radioButton_default">
-           <property name="text">
-            <string>DE&amp;FAULT</string>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>22</width>
-             <height>22</height>
-            </size>
-           </property>
-          </widget>
+         <item>
+          <layout class="QGridLayout" name="gridLayout_9">
+           <item row="0" column="0">
+            <widget class="QRadioButton" name="radioButton_selected">
+             <property name="text">
+              <string>SE&amp;LECTED</string>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>22</width>
+               <height>22</height>
+              </size>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QRadioButton" name="radioButton_default">
+             <property name="text">
+              <string>DE&amp;FAULT</string>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>22</width>
+               <height>22</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>
@@ -708,6 +706,363 @@
           <property name="title">
            <string>modbus</string>
           </property>
+          <layout class="QGridLayout" name="gridLayout_10">
+           <item row="0" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_8">
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_2">
+               <item>
+                <layout class="QGridLayout" name="gridLayout_11">
+                 <item row="0" column="0">
+                  <widget class="QComboBox" name="modbusadress">
+                   <item>
+                    <property name="text">
+                     <string>ADRESS=1</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>ADRESS=2</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>ADRESS=3</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>ADRESS=4</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>ADRESS=5</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>ADRESS=6</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>ADRESS=7</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>ADRESS=8</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QComboBox" name="modbuspa">
+                   <item>
+                    <property name="text">
+                     <string>PA=1</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>PA=2</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>PA=4</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>PA=8</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>PA=16</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>PA=32</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>PA=64</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>PA=128</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QComboBox" name="modbusdp">
+                   <item>
+                    <property name="text">
+                     <string>DP=0</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>DP=1</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>DP=2</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>DP=3</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QComboBox" name="modbusad">
+                   <item>
+                    <property name="text">
+                     <string>AD=1</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>AD=2</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>AD=5</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>AD=10</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>AD=20</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>AD=50</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QLineEdit" name="modbusLCAP"/>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QComboBox" name="modbusreadwrite">
+                   <item>
+                    <property name="text">
+                     <string>Write[0x06]</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Read[0x03]</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QGridLayout" name="gridLayout_12">
+                 <item row="0" column="0">
+                  <layout class="QHBoxLayout" name="horizontalLayout_7">
+                   <item>
+                    <widget class="QRadioButton" name="modbus_selectedbutton">
+                     <property name="text">
+                      <string>se&amp;lected</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QRadioButton" name="modbus_default_flash">
+                     <property name="text">
+                      <string>de&amp;fault</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item row="1" column="0" colspan="2">
+                  <widget class="QPushButton" name="modbus_flash">
+                   <property name="text">
+                    <string>FLASH</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QComboBox" name="modbus_readdata">
+                   <item>
+                    <property name="text">
+                     <string>POINTER REG</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>RAW SIGNAL(H)</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>RAW SIGNAL(L)</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>POINTER VALUE (H)</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>POINTER VALUE (L)</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>DECIMAL POINT(DP)</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>GAIN REG (PA)</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>STEP REG (AD)</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>LCAP (H)</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>LCAP (L)</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>CAL P (H)</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>CAL P (L)</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>TARA (H)</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>TARA (L)</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>BAUDR (H)</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>BAUDR(L)</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>BAUDADR</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QPushButton" name="modbusreadbutton">
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>READ REGISTER</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="0" colspan="2">
+                  <widget class="QPushButton" name="pushButton_3">
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Read ALL</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QPlainTextEdit" name="modbus_textedit">
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="1" column="0">
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <widget class="QLabel" name="modbuslabel">
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                 <italic>true</italic>
+                </font>
+               </property>
+               <property name="text">
+                <string>STATUS: </string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QProgressBar" name="modbusstatusbar">
+               <property name="value">
+                <number>0</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
           <widget class="QLabel" name="modbus_pointerreglabel">
            <property name="geometry">
             <rect>
@@ -720,377 +1075,6 @@
            <property name="text">
             <string/>
            </property>
-          </widget>
-          <widget class="QWidget" name="layoutWidget">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>40</y>
-             <width>1081</width>
-             <height>541</height>
-            </rect>
-           </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_8">
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_2">
-              <item>
-               <layout class="QGridLayout" name="gridLayout_11">
-                <item row="0" column="0">
-                 <widget class="QComboBox" name="modbusadress">
-                  <item>
-                   <property name="text">
-                    <string>ADRESS=1</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>ADRESS=2</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>ADRESS=3</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>ADRESS=4</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>ADRESS=5</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>ADRESS=6</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>ADRESS=7</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>ADRESS=8</string>
-                   </property>
-                  </item>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QComboBox" name="modbuspa">
-                  <item>
-                   <property name="text">
-                    <string>PA=1</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>PA=2</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>PA=4</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>PA=8</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>PA=16</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>PA=32</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>PA=64</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>PA=128</string>
-                   </property>
-                  </item>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QComboBox" name="modbusdp">
-                  <item>
-                   <property name="text">
-                    <string>DP=0</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>DP=1</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>DP=2</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>DP=3</string>
-                   </property>
-                  </item>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QComboBox" name="modbusad">
-                  <item>
-                   <property name="text">
-                    <string>AD=1</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>AD=2</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>AD=5</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>AD=10</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>AD=20</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>AD=50</string>
-                   </property>
-                  </item>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QLineEdit" name="modbusLCAP"/>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QComboBox" name="modbusreadwrite">
-                  <item>
-                   <property name="text">
-                    <string>Write[0x06]</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Read[0x03]</string>
-                   </property>
-                  </item>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QGridLayout" name="gridLayout_12">
-                <item row="0" column="0">
-                 <layout class="QHBoxLayout" name="horizontalLayout_7">
-                  <item>
-                   <widget class="QRadioButton" name="modbus_selectedbutton">
-                    <property name="text">
-                     <string>se&amp;lected</string>
-                    </property>
-                    <property name="checked">
-                     <bool>true</bool>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QRadioButton" name="modbus_default_flash">
-                    <property name="text">
-                     <string>de&amp;fault</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item row="1" column="0" colspan="2">
-                 <widget class="QPushButton" name="modbus_flash">
-                  <property name="text">
-                   <string>FLASH</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QComboBox" name="modbus_readdata">
-                  <item>
-                   <property name="text">
-                    <string>POINTER REG</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>RAW SIGNAL(H)</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>RAW SIGNAL(L)</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>POINTER VALUE (H)</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>POINTER VALUE (L)</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>DECIMAL POINT(DP)</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>GAIN REG (PA)</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>STEP REG (AD)</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>LCAP (H)</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>LCAP (L)</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>CAL P (H)</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>CAL P (L)</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>TARA (H)</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>TARA (L)</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>BAUDR (H)</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>BAUDR(L)</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>BAUDADR</string>
-                   </property>
-                  </item>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QPushButton" name="modbusreadbutton">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                    <weight>75</weight>
-                    <bold>true</bold>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>READ REGISTER</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0" colspan="2">
-                 <widget class="QPushButton" name="pushButton_3">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Read ALL</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <widget class="QPlainTextEdit" name="modbus_textedit">
-              <property name="font">
-               <font>
-                <pointsize>8</pointsize>
-               </font>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="layoutWidget">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>590</y>
-             <width>1011</width>
-             <height>61</height>
-            </rect>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_3">
-            <item>
-             <widget class="QLabel" name="modbuslabel">
-              <property name="font">
-               <font>
-                <pointsize>8</pointsize>
-                <italic>true</italic>
-               </font>
-              </property>
-              <property name="text">
-               <string>STATUS: </string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QProgressBar" name="modbusstatusbar">
-              <property name="value">
-               <number>0</number>
-              </property>
-             </widget>
-            </item>
-           </layout>
           </widget>
           <zorder>layoutWidget</zorder>
           <zorder>modbus_pointerreglabel</zorder>

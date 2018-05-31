@@ -142,7 +142,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(serialc, SIGNAL(speak(QByteArray)), this, SLOT(modbusconsole(QByteArray)));
 	connect(ui->tcp_checkbox, SIGNAL(clicked(bool)), this, SLOT(startTcpClient()));
 	font = ui->tabWidget->font();
-	font.setPointSize(21);
+	font.setPointSize(19);
 	font.setBold(true);
 	ui->tabWidget->setFont(font);
 	tim2->start(15000);

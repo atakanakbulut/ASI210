@@ -29,7 +29,6 @@ bool netman::connectTCPHost(QString hostname, int port)
 	}
 	else{
 		qDebug() << "connected";
-		sendInfo("i am connected\n");
 		return true;
 	}
 }
@@ -81,8 +80,7 @@ void netman::receivedData()
 	stcp->write("welcome here\n");
 	//stcp->waitForReadyRead(15000);
 	connect(stcp, SIGNAL(readyRead()),this, SLOT(tcpData()));
-	}
-
+}
 
 bool netman::currentStatus()
 {
